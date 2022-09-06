@@ -23,6 +23,6 @@ class ResourcesEvents(plugin: Cocktail) : Listener {
 
     @EventHandler
     fun checkResourceStatus(e: PlayerResourcePackStatusEvent) {
-        if(e.status == PlayerResourcePackStatusEvent.Status.DECLINED) e.player.kickPlayer("Sorry, but resource packs are required to join")
+        if (e.status == PlayerResourcePackStatusEvent.Status.DECLINED) e.player.kickPlayer("Sorry, but resource packs are required to join")
     }
 }

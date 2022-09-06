@@ -26,7 +26,8 @@ object ResourcesMenuGUI {
             "It does not contain features that may",
             "break in modded scenarios.",
             "This pack is safe for modded environments",
-            Color.color("&aClick me to use the Compatibility Pack!"))
+            Color.color("&aClick me to use the Compatibility Pack!")
+        )
         compatPackItem.itemMeta = compatItemMeta
 
         val fullPackItem = ItemStack(Material.GREEN_DYE, 1)
@@ -39,7 +40,8 @@ object ResourcesMenuGUI {
             "This pack is for Vanilla users!",
             "It contains all the feature we provide.",
             "These may break in modded scenario!",
-            Color.color("&aClick me to use the Full Pack!"))
+            Color.color("&aClick me to use the Full Pack!")
+        )
         fullPackItem.itemMeta = fullItemMeta
 
         inv.setItem(10, compatPackItem)
