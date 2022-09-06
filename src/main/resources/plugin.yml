@@ -1,0 +1,9 @@
+name: Cocktail
+version: '${version}'
+main: me.cobble.cocktail.Cocktail
+api-version: 1.19
+depend: [ ] #NBTAPI
+authors: [ Cbble_ ]
+description: Extensions to the default datapack environment
+libraries:
+  - "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10"
