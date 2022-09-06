@@ -11,6 +11,8 @@ import java.net.http.HttpResponse.BodyHandlers
 
 
 object HTTPUtils {
+    val PATH = "${Bukkit.getServer().getWorld("world")!!.worldFolder}/datapacks/"
+
     private val client = HttpClient
         .newBuilder()
         .version(HttpClient.Version.HTTP_2)
@@ -18,12 +20,12 @@ object HTTPUtils {
         .build()
 
     fun getDatapacks() {
-        val uri = URI.create(Config.get()!!.getString("datapack-url")!!)
+        val uri = URI.create(Config.get().getString("datapack-url")!!)
         val request = HttpRequest.newBuilder().uri(uri).build()
 
         val stream = client.sendAsync(request, BodyHandlers.ofInputStream())
             .thenApply { obj: HttpResponse<InputStream> -> obj.body() }.join()
-        FileOutputStream("${Bukkit.getServer().getWorld("world")!!.worldFolder}/datapacks/pack.zip")
+        FileOutputStream("$PATH/pack.zip")
             .use { out -> stream.transferTo(out) }
     }
 }
