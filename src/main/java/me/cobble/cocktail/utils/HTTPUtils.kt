@@ -7,6 +7,8 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.net.http.HttpResponse.BodyHandlers
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
@@ -67,11 +69,6 @@ object HTTPUtils {
 
         zis.closeEntry()
         zis.close()
-
-        val movedFolder = File(destDir, "/datapack-main")
-        movedFolder.renameTo(File(destDir, "../pack"))
-        File(fileZip).delete()
-        destDir.delete()
     }
 
     private fun newFile(destinationDir: File, zipEntry: ZipEntry): File {
