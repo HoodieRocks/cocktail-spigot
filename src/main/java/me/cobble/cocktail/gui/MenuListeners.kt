@@ -23,17 +23,17 @@ class MenuListeners(plugin: Cocktail) : Listener {
             e.isCancelled = true
             val item = e.currentItem!!
             if (item.type == Material.GRAY_DYE) {
+                MenuManager.remove(player)
                 if (!Config.getBool("testing")) {
                     player.setResourcePack(Config.getString("compat-pack-url"))
                 }
-                MenuManager.remove(player)
                 player.closeInventory()
             }
             if (item.type == Material.GREEN_DYE) {
+                MenuManager.remove(player)
                 if (!Config.getBool("testing")) {
                     player.setResourcePack(Config.getString("full-pack-url"))
                 }
-                MenuManager.remove(player)
                 player.closeInventory()
             }
         }
@@ -41,6 +41,7 @@ class MenuListeners(plugin: Cocktail) : Listener {
 
     @EventHandler
     fun onClose(e: InventoryCloseEvent) {
-        if (MenuManager.contains(e.player as Player)) (e.player as Player).kickPlayer("Please accept one of the packs!")
+        val player = e.player as Player
+        if (MenuManager.contains(player) && Config.getBool("testing")) player.kickPlayer("You must accept 1 of the 2 packs")
     }
 }

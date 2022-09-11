@@ -8,13 +8,12 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.net.http.HttpResponse.BodyHandlers
 import java.nio.file.Files
-import java.nio.file.StandardCopyOption
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
 
 object HTTPUtils {
-    private val PATH = "${Bukkit.getServer().getWorld("world")!!.worldFolder}/datapacks/"
+    private val DATAPACK_PATH = "${Bukkit.getServer().getWorld("world")!!.worldFolder}/datapacks/"
 
     private val client = HttpClient
         .newBuilder()
@@ -28,17 +27,17 @@ object HTTPUtils {
 
         val stream = client.sendAsync(request, BodyHandlers.ofInputStream())
             .thenApply { obj: HttpResponse<InputStream> -> obj.body() }.join()
-        FileOutputStream("$PATH/pack.zip")
-            .use { out -> stream.transferTo(out) }
 
-        fixZip()
+        FileOutputStream("$DATAPACK_PATH/pack.zip").use { out -> stream.transferTo(out) }
+
+        fixZip(DATAPACK_PATH)
 
         Bukkit.getServer().reloadData()
     }
 
-    private fun fixZip() {
-        val fileZip = "$PATH/pack.zip"
-        val destDir = File("$PATH/pack-test/")
+    private fun fixZip(filePath: String) {
+        val fileZip = "$filePath/pack.zip"
+        val destDir = File("$filePath/pack-temp/")
 
         val buffer = ByteArray(4096)
         val zis = ZipInputStream(FileInputStream(fileZip))
@@ -69,6 +68,21 @@ object HTTPUtils {
 
         zis.closeEntry()
         zis.close()
+
+        val path = File("$filePath/pack-temp/")
+        val packPath = File("$filePath/pack")
+
+        if (packPath.exists()) {
+            packPath.deleteRecursively()
+        }
+
+        Files.move(path.toPath(), packPath.toPath())
+
+        if (destDir.isDirectory && destDir.exists()) {
+            destDir.deleteRecursively()
+        }
+        File(fileZip).delete()
+
     }
 
     private fun newFile(destinationDir: File, zipEntry: ZipEntry): File {

@@ -2,4 +2,4 @@ testing: true
 
 datapack-url: "https://github.com/Daily-Datapackers/datapack/archive/refs/heads/main.zip"
 compat-pack-url: ""
-full-pack-url: ""
+full-pack-url: "https://github.com/Daily-Datapackers/resources/archive/refs/heads/main.zip"
