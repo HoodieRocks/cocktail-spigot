@@ -1,6 +1,7 @@
 package me.cobble.cocktail
 
 import me.cobble.cocktail.cmds.FlyCommand
+import me.cobble.cocktail.cmds.RandCommand
 import me.cobble.cocktail.cmds.TestCommand
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandMap
@@ -22,5 +23,6 @@ class Registry {
 
     fun registerCommands() {
         map.register("minecraft", TestCommand("test", "test", "idk", ArrayList()))
+        map.register("minecraft", RandCommand())
     }
 }
