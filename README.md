@@ -11,7 +11,7 @@ is working and the plugin is ready to use in datapacks
 
 `/fetch` - This command fetches data from an API `[Currently WIP]`
 
-`/random <min> <max> <player> <board>` - This command will quickly and efficiently generate a random number, it can be fetched from the scoreboard, does not accept decimals
+`/rand <min> <max> <player> <board>` - This command will quickly and efficiently generate a random number, it can be fetched from the scoreboard, does not accept decimals
 
 `/damage <player> <amount>` - This command will damage the inputted player the amount specified, accepts decimals
 
