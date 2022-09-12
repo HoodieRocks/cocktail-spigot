@@ -1,5 +1,6 @@
 package me.cobble.cocktail
 
+import me.cobble.cocktail.cmds.FlyCommand
 import me.cobble.cocktail.cmds.TestCommand
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandMap

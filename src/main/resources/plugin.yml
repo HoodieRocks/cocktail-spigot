@@ -7,3 +7,6 @@ authors: [ Cbble_ ]
 description: Extensions to the default datapack environment
 libraries:
   - "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10"
+commands:
+  flyspeed:
+    description: wee

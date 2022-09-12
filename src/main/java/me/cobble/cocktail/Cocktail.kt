@@ -1,5 +1,6 @@
 package me.cobble.cocktail
 
+import me.cobble.cocktail.cmds.FlyCommand
 import me.cobble.cocktail.gui.MenuListeners
 import me.cobble.cocktail.listeners.OverrideReloadCommandListener
 import me.cobble.cocktail.listeners.ResourcesEvents
@@ -21,6 +22,8 @@ class Cocktail : JavaPlugin() {
         registry.registerCommands()
 
         HTTPUtils.getDatapacks()
+
+        FlyCommand(this)
 
         ResourcesEvents(this)
         MenuListeners(this)
