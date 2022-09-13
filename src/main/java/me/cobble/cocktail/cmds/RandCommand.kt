@@ -23,3 +23,4 @@ if(args.size == 4) {
 } else {
 sender.sendMessage(Color.color("&cNo permission!"))
 }
+}
