@@ -1,5 +1,6 @@
 package me.cobble.cocktail.cmds
 
+import me.cobble.cocktail.utils.Color
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.command.defaults.BukkitCommand
@@ -7,20 +8,21 @@ import org.bukkit.command.defaults.BukkitCommand
 class DamageCommand : BukkitCommand("damage") {
 
     override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
-if(sender.isOp()) {        
-if(args.size == 2) {
-            val player = Bukkit.getPlayer(args[0])!!
-            val damage = args[1].toDouble()
+        if (sender.isOp) {
+            if (args.size == 2) {
+                val player = Bukkit.getPlayer(args[0])!!
+                val damage = args[1].toDouble()
 
-            player.damage(damage)
+                player.damage(damage)
 
-            return true
+                return true
+            } else {
+                sender.sendMessage("Too few arguments, /random <player> <amount>")
+            }
+            return false
         } else {
-            sender.sendMessage("Too few arguments, /random <player> <amount>")
+            sender.sendMessage(Color.color("&cNo permission!"))
+            return false
         }
-        return false
     }
-} else {
-sender.sendMessage(Color.color("&cNo permission!"))
-}
 }

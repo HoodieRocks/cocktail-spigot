@@ -1,7 +1,6 @@
 package me.cobble.cocktail
 
 import me.cobble.cocktail.cmds.DamageCommand
-import me.cobble.cocktail.cmds.FlyCommand
 import me.cobble.cocktail.cmds.RandCommand
 import me.cobble.cocktail.cmds.TestCommand
 import org.bukkit.Bukkit
