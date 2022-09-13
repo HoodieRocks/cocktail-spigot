@@ -7,7 +7,8 @@ import org.bukkit.command.defaults.BukkitCommand
 class DamageCommand : BukkitCommand("damage") {
 
     override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
-        if(args.size == 2) {
+if(sender.isOp()) {        
+if(args.size == 2) {
             val player = Bukkit.getPlayer(args[0])!!
             val damage = args[1].toDouble()
 
@@ -19,5 +20,7 @@ class DamageCommand : BukkitCommand("damage") {
         }
         return false
     }
-
+} else {
+sender.sendMessage(Color.color("&cNo permission!"))
+}
 }
