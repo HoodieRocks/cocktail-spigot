@@ -6,7 +6,8 @@ import org.bukkit.command.defaults.BukkitCommand
 
 class RandCommand : BukkitCommand("rand") {
     override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
-        if(args.size == 4) {
+if(sender.isOp()) {        
+if(args.size == 4) {
             val min = args[0].toInt()
             val max = args[1].toInt()
             val player = Bukkit.getPlayer(args[2])!!
@@ -19,5 +20,6 @@ class RandCommand : BukkitCommand("rand") {
         }
         return false
     }
-
+} else {
+sender.sendMessage(Color.color("&cNo permission!"))
 }
