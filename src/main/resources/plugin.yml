@@ -10,3 +10,5 @@ libraries:
 commands:
   flyspeed:
     description: wee
+  report:
+    description: reports a player

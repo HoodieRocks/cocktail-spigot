@@ -54,7 +54,7 @@ processResources {
 
 tasks.withType(Jar) {
     // Cobble's test server
-    // destinationDirectory = file("D:/Users/aiden/Documents/server3/plugins")
+    destinationDirectory = file("D:/Users/aiden/Documents/server3/plugins")
 }
 compileKotlin {
     kotlinOptions {
