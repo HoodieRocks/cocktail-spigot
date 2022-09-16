@@ -11,10 +11,10 @@ class RandCommand : BukkitCommand("rand") {
             if (args.size == 4) {
                 val min = args[0].toInt()
                 val max = args[1].toInt()
-                val player = Bukkit.getPlayer(args[2])!!
+                val player = args[2]
                 val board = Bukkit.getScoreboardManager()!!.mainScoreboard.getObjective(args[3])!!
 
-                board.getScore(player.name).score = (min..max).random()
+                board.getScore(player).score = (min..max).random()
                 return true
             } else {
                 sender.sendMessage("Too few arguments, /random <min> <max> <player> <board>")
