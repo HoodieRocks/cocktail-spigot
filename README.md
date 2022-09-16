@@ -15,6 +15,11 @@ is working and the plugin is ready to use in datapacks
 
 `/damage <player> <amount>` - This command will damage the inputted player the amount specified, accepts decimals
 
+### Non-Operators
+`/report <player> <reasons>` - Reports a player
+### Operator
+`/report [page]` - Shows the reports
+
 ## Other Features
 
 When the player joins, they can choose between 1 of 2 resource packs, a compatibility pack, 
