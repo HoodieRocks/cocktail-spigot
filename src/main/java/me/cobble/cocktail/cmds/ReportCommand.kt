@@ -12,12 +12,37 @@ import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
+import org.bukkit.command.TabExecutor
 import org.bukkit.entity.Player
+import java.time.LocalDateTime
+import java.util.*
 
-class ReportCommand(plugin: Cocktail) : CommandExecutor {
+class ReportCommand(plugin: Cocktail) : TabExecutor {
 
     init {
         plugin.getCommand("report")!!.setExecutor(this)
+        plugin.getCommand("report")!!.tabCompleter = this
+    }
+
+    override fun onTabComplete(
+        sender: CommandSender,
+        command: Command,
+        label: String,
+        args: Array<out String>
+    ): MutableList<String> {
+        val list = arrayListOf<String>()
+
+        if(sender.isOp) {
+            if (args.size == 1) {
+                list.add("remove")
+            }
+            if(args.size == 2) {
+                for (report in ReportManager.getAllReports()) {
+                    list.add(report.key.toString())
+                }
+            }
+        }
+        return list
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
@@ -27,7 +52,7 @@ class ReportCommand(plugin: Cocktail) : CommandExecutor {
                     val target = Bukkit.getPlayer(args[0])!!
                     val reason = args.drop(1).joinToString(separator = " ")
 
-                    ReportManager.createReport(sender, target, reason)
+                    ReportManager.createReport(sender, target, reason, LocalDateTime.now())
 
                     sender.sendMessage(Color.color("&aReport sent! Thanks for reporting!"))
                     return true
@@ -63,11 +88,11 @@ class ReportCommand(plugin: Cocktail) : CommandExecutor {
                     sender.sendMessage(Color.color("\n&e&lReports &fPage ${args[0]} of ${(reports.size / 10) + 1}"))
                     for (i in args[0].toInt() until 10 * args[0].toInt()) {
                         if(reports.size == i) break
-                        val report = reports[i]
-                        sender.sendMessage(Color.color("&7---\n&eSender: &f${report.player.name}"))
-                        sender.sendMessage(Color.color("&eReported Player: &f${report.reportedPlayer.name}"))
-                        sender.sendMessage(Color.color("&eReason: &d${report.reason}"))
-                        sender.sendMessage(Color.color("&eTime of Report: &7${report.reportTime}\n"))
+                        val report = reports.values.random()
+                        sender.sendMessage(Color.color("&7---"))
+                        sender.sendMessage(Color.color("&eID: &f${report.id}"))
+                        sender.sendMessage(Color.color("&eSender: &f${report.player.name}"))
+                        sender.sendMessage(Color.color("&eReason: &d${report.reportedPlayer.name}&f reported for ${report.reason} at &7${report.reportTime}\n"))
                     }
                     sender.spigot().sendMessage(*component.create())
                 } else {
@@ -87,11 +112,11 @@ class ReportCommand(plugin: Cocktail) : CommandExecutor {
                     sender.sendMessage(Color.color("&e&lReports &fPage 1 of ${(reports.size / 10) + 1}"))
                     for (i in 0 until 10) {
                         if(reports.size == i) break
-                        val report = reports[i]
-                        sender.sendMessage(Color.color("&7---\n&eSender: &f${report.player.name}"))
-                        sender.sendMessage(Color.color("&eReported Player: &f${report.reportedPlayer.name}"))
-                        sender.sendMessage(Color.color("&eReason: &d${report.reason}"))
-                        sender.sendMessage(Color.color("&eTime of Report: &7${report.reportTime}\n"))
+                        val report = reports.values.random()
+                        sender.sendMessage(Color.color("&7---"))
+                        sender.sendMessage(Color.color("&eID: &f${report.id}"))
+                        sender.sendMessage(Color.color("&eSender: &f${report.player.name}"))
+                        sender.sendMessage(Color.color("&eReason: &d${report.reportedPlayer.name} &7reported for &f${report.reason} &7at &d${report.reportTime}\n"))
                     }
                     sender.spigot().sendMessage(*component.create())
                 }
