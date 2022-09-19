@@ -2,7 +2,7 @@ name: Cocktail
 version: '${version}'
 main: me.cobble.cocktail.Cocktail
 api-version: 1.19
-depend: [ ] #NBTAPI
+depend: [ CommandAPI ] #NBTAPI
 authors: [ Cbble_ ]
 description: Extensions to the default datapack environment
 libraries:

@@ -26,11 +26,14 @@ class RandCommand {
                         val board = Bukkit.getScoreboardManager()!!.mainScoreboard.getObjective(args[3] as String)!!
 
                         board.getScore(player).score = (min..max).random()
+                        return@CommandExecutor
                     } else {
                         sender.sendMessage("Too few arguments, /random <min> <max> <player> <board>")
+                        return@CommandExecutor
                     }
                 } else {
                     sender.sendMessage(Color.color("&cNo permission!"))
+                    return@CommandExecutor
                 }
             })
     }

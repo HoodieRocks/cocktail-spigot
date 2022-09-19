@@ -1,28 +1,34 @@
 package me.cobble.cocktail.cmds
 
+import dev.jorel.commandapi.CommandAPICommand
+import dev.jorel.commandapi.arguments.DoubleArgument
+import dev.jorel.commandapi.arguments.EntitySelector
+import dev.jorel.commandapi.arguments.EntitySelectorArgument
+import dev.jorel.commandapi.executors.CommandExecutor
 import me.cobble.cocktail.utils.Color
-import org.bukkit.Bukkit
-import org.bukkit.command.CommandSender
-import org.bukkit.command.defaults.BukkitCommand
+import org.bukkit.entity.Player
 
-class DamageCommand : BukkitCommand("damage") {
+class DamageCommand {
+    init {
+        CommandAPICommand("damage")
+            .withArguments(EntitySelectorArgument<Player>("player", EntitySelector.ONE_PLAYER))
+            .withArguments(DoubleArgument("damage"))
+            .executes(CommandExecutor { sender, args ->
+                if (sender.isOp) {
+                    if (args.size == 2) {
+                        val player = args[0] as Player
+                        val damage = args[1] as Double
 
-    override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
-        if (sender.isOp) {
-            if (args.size == 2) {
-                val player = Bukkit.getPlayer(args[0])!!
-                val damage = args[1].toDouble()
-
-                player.damage(damage)
-
-                return true
-            } else {
-                sender.sendMessage("Too few arguments, /random <player> <amount>")
-            }
-            return false
-        } else {
-            sender.sendMessage(Color.color("&cNo permission!"))
-            return false
-        }
+                        player.damage(damage)
+                        return@CommandExecutor
+                    } else {
+                        sender.sendMessage("Too few arguments, /random <player> <amount>")
+                        return@CommandExecutor
+                    }
+                } else {
+                    sender.sendMessage(Color.color("&cNo permission!"))
+                    return@CommandExecutor
+                }
+            })
     }
 }

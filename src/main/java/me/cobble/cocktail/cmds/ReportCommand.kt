@@ -5,17 +5,13 @@ import me.cobble.cocktail.utils.Color
 import me.cobble.cocktail.utils.ReportManager
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.ComponentBuilder
-import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
-import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
 import org.bukkit.entity.Player
 import java.time.LocalDateTime
-import java.util.*
 
 class ReportCommand(plugin: Cocktail) : TabExecutor {
 
@@ -32,11 +28,11 @@ class ReportCommand(plugin: Cocktail) : TabExecutor {
     ): MutableList<String> {
         val list = arrayListOf<String>()
 
-        if(sender.isOp) {
+        if (sender.isOp) {
             if (args.size == 1) {
                 list.add("remove")
             }
-            if(args.size == 2) {
+            if (args.size == 2) {
                 for (report in ReportManager.getAllReports()) {
                     list.add(report.key.toString())
                 }
@@ -66,10 +62,11 @@ class ReportCommand(plugin: Cocktail) : TabExecutor {
                 val backComponent: TextComponent?
                 val forwardComponent: TextComponent?
 
-                if(args.size == 1) {
+                if (args.size == 1) {
                     if (args[0] != "0") {
                         backComponent = TextComponent(Color.color("&6«"))
-                        backComponent.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/report ${args[0].toInt() - 1}")
+                        backComponent.clickEvent =
+                            ClickEvent(ClickEvent.Action.RUN_COMMAND, "/report ${args[0].toInt() - 1}")
                     } else {
                         backComponent = TextComponent(Color.color("&7«"))
                     }
@@ -78,7 +75,8 @@ class ReportCommand(plugin: Cocktail) : TabExecutor {
                         forwardComponent = TextComponent(Color.color("&7»"))
                     } else {
                         forwardComponent = TextComponent(Color.color("&6»"))
-                        forwardComponent.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/report ${args[0].toInt() + 1}")
+                        forwardComponent.clickEvent =
+                            ClickEvent(ClickEvent.Action.RUN_COMMAND, "/report ${args[0].toInt() + 1}")
                     }
 
                     component.append(backComponent)
@@ -87,7 +85,7 @@ class ReportCommand(plugin: Cocktail) : TabExecutor {
 
                     sender.sendMessage(Color.color("\n&e&lReports &fPage ${args[0]} of ${(reports.size / 10) + 1}"))
                     for (i in args[0].toInt() until 10 * args[0].toInt()) {
-                        if(reports.size == i) break
+                        if (reports.size == i) break
                         val report = reports.values.random()
                         sender.sendMessage(Color.color("&7---"))
                         sender.sendMessage(Color.color("&eID: &f${report.id}"))
@@ -111,7 +109,7 @@ class ReportCommand(plugin: Cocktail) : TabExecutor {
 
                     sender.sendMessage(Color.color("&e&lReports &fPage 1 of ${(reports.size / 10) + 1}"))
                     for (i in 0 until 10) {
-                        if(reports.size == i) break
+                        if (reports.size == i) break
                         val report = reports.values.random()
                         sender.sendMessage(Color.color("&7---"))
                         sender.sendMessage(Color.color("&eID: &f${report.id}"))

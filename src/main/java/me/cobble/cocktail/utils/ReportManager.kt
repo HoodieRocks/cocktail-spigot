@@ -23,7 +23,13 @@ object ReportManager {
         reports[id] = Report(id, sender, reportedPlayer, reason, time)
     }
 
-    private fun createReportWithSetUUID(uuid: UUID, sender: Player, reportedPlayer: Player, reason: String, time: LocalDateTime) {
+    private fun createReportWithSetUUID(
+        uuid: UUID,
+        sender: Player,
+        reportedPlayer: Player,
+        reason: String,
+        time: LocalDateTime
+    ) {
         reports[uuid] = Report(uuid, sender, reportedPlayer, reason, time)
     }
 
@@ -36,7 +42,7 @@ object ReportManager {
         val jsonArray = JsonArray()
         val file = File("${plugin.dataFolder}/reports.json")
 
-        if(!file.exists()) {
+        if (!file.exists()) {
             file.createNewFile()
             val writer = FileWriter("${plugin.dataFolder}/reports.json")
             gson.toJson(JsonArray(), writer)
@@ -66,7 +72,7 @@ object ReportManager {
         val gson = Gson()
         val file = File("${plugin.dataFolder}/reports.json")
 
-        if(!file.exists()) {
+        if (!file.exists()) {
             file.createNewFile()
             val writer = FileWriter("${plugin.dataFolder}/reports.json")
             gson.toJson(JsonArray(), writer)
@@ -90,7 +96,8 @@ object ReportManager {
                 player,
                 reportedPlayer,
                 reason,
-                LocalDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneOffset.UTC))
+                LocalDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneOffset.UTC)
+            )
         }
 
         reader.close()

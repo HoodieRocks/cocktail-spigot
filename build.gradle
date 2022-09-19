@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'me.cobble'
-version = '1.3'
+version = '1.4'
 
 repositories {
     mavenCentral()
@@ -25,7 +25,7 @@ repositories {
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT'
     implementation 'com.github.Querz:NBT:6.1'
-    implementation "dev.jorel:commandapi-core:8.5.1"
+    compileOnly "dev.jorel:commandapi-core:8.5.1"
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
