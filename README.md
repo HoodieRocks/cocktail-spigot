@@ -19,11 +19,3 @@ is working and the plugin is ready to use in datapacks
 `/report <player> <reasons>` - Reports a player
 ### Operator
 `/report [page]` - Shows the reports
-
-## Other Features
-
-When the player joins, they can choose between 1 of 2 resource packs, a compatibility pack, 
-designed for modded users or a full pack meant for non-modded players. This triggers automatically 
-when the player joins the world, if they attempt to close the menu, they will be kicked until 
-they accept at least 1 resource pack, actual resource pack sending can be disabled by enabling
-`testing` in the config
