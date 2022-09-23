@@ -19,13 +19,17 @@ class Cocktail : JavaPlugin() {
 
         HTTPUtils.getDatapacks()
 
+        // Command API commands
         DamageCommand()
         RandCommand()
         TestCommand()
 
+        // Spigot API commands
         FlyCommand(this)
         ReportCommand(this)
+        CocktailCheck(this)
 
+        // Override /minecraft:reload
         OverrideReloadCommandListener(this)
 
         ReportManager.load(this)

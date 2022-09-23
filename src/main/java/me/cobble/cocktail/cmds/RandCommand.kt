@@ -1,8 +1,9 @@
 package me.cobble.cocktail.cmds
 
 import dev.jorel.commandapi.CommandAPICommand
+import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.arguments.IntegerArgument
-import dev.jorel.commandapi.arguments.ScoreHolderArgument
+import dev.jorel.commandapi.arguments.ObjectiveArgument
 import dev.jorel.commandapi.arguments.StringArgument
 import dev.jorel.commandapi.executors.CommandExecutor
 import me.cobble.cocktail.utils.Color
@@ -12,11 +13,15 @@ import org.bukkit.Bukkit
 class RandCommand {
 
     init {
+        val suggestionsNames = arrayListOf<String>()
+        Bukkit.getServer().scoreboardManager?.mainScoreboard?.objectives?.forEach { suggestionsNames.add(it.name) }
+        val suggestions = ArgumentSuggestions.strings(*suggestionsNames.toTypedArray())
+
         CommandAPICommand("rand")
             .withArguments(IntegerArgument("min", Int.MIN_VALUE, Int.MAX_VALUE))
             .withArguments(IntegerArgument("max", Int.MIN_VALUE, Int.MAX_VALUE))
             .withArguments(StringArgument("name"))
-            .withArguments(ScoreHolderArgument<StringArgument>("board"))
+            .withArguments(ObjectiveArgument("board").replaceSafeSuggestions { suggestions })
             .executes(CommandExecutor { sender, args ->
                 if (sender.isOp) {
                     if (args.size == 4) {
@@ -35,6 +40,6 @@ class RandCommand {
                     sender.sendMessage(Color.color("&cNo permission!"))
                     return@CommandExecutor
                 }
-            })
+            }).register()
     }
 }

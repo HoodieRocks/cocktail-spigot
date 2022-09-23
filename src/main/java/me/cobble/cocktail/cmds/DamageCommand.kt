@@ -30,5 +30,6 @@ class DamageCommand {
                     return@CommandExecutor
                 }
             })
+            .register()
     }
 }

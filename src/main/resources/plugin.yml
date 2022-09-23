@@ -12,3 +12,5 @@ commands:
     description: wee
   report:
     description: reports a player
+  ctversion:
+    description: gets version of cocktail
