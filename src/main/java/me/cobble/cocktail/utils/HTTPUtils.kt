@@ -30,14 +30,14 @@ object HTTPUtils {
 
         FileOutputStream("$DATAPACK_PATH/pack.zip").use { out -> stream.transferTo(out) }
 
-        fixZip(DATAPACK_PATH)
+        fixZip()
 
         Bukkit.getServer().reloadData()
     }
 
-    private fun fixZip(filePath: String) {
-        val fileZip = "$filePath/pack.zip"
-        val destDir = File("$filePath/pack-temp/")
+    private fun fixZip() {
+        val fileZip = "$DATAPACK_PATH/pack.zip"
+        val destDir = File("$DATAPACK_PATH/pack-temp/")
 
         val buffer = ByteArray(4096)
         val zis = ZipInputStream(FileInputStream(fileZip))
@@ -69,8 +69,8 @@ object HTTPUtils {
         zis.closeEntry()
         zis.close()
 
-        val path = File("$filePath/pack-temp/")
-        val packPath = File("$filePath/pack")
+        val path = File("$DATAPACK_PATH/pack-temp/datapack-main")
+        val packPath = File("$DATAPACK_PATH/pack")
 
         if (packPath.exists()) {
             packPath.deleteRecursively()

@@ -33,7 +33,7 @@ class RandCommand {
                         board.getScore(player).score = (min..max).random()
                         return@CommandExecutor
                     } else {
-                        sender.sendMessage("Too few arguments, /random <min> <max> <player> <board>")
+                        sender.sendMessage("Too few arguments, /random <min> <max> <name> <board>")
                         return@CommandExecutor
                     }
                 } else {
