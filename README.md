@@ -17,7 +17,7 @@ is working and the plugin is ready to use in datapacks
 
 `/damage <player> <amount>` - This command will damage the inputted player the amount specified, accepts decimals
 
-`/flyspeed <number>` - Will set your flying speed (maximum speed is 10)
+`/flyspeed <number>` - Will set your flying speed (maximum speed is 10) (limited by spigot/paper)
 
 ### Non-Operators
 `/report <player> <reasons>` - Reports a player
