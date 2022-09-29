@@ -19,6 +19,7 @@ class Cocktail : JavaPlugin() {
 
         HTTPUtils.getDatapacks()
 
+        // TODO: Reimplement Fetch Command when API is available
         // Command API commands
         DamageCommand()
         RandCommand()
