@@ -11,7 +11,7 @@ is working and the plugin is ready to use in datapacks
 
 `/ctversion` - Says you the current version of cocktail on the server.
 
-`/fetch` - This command fetches data from an API `[Currently WIP]`
+`/fetch` - This command fetches data from an API `[Currently WIP] [Removed until API comes]`
 
 `/rand <min> <max> <player> <board>` - This command will quickly and efficiently generate a random number, it can be fetched from the scoreboard, does not accept decimals
 
