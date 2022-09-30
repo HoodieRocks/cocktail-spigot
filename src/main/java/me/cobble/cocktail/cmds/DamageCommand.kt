@@ -20,7 +20,7 @@ class DamageCommand {
                         val entity = args[0] as ArrayList<*>
                         val damage = args[1] as Double
 
-                        entity.forEach { if(it is Damageable) it.damage(damage) }
+                        entity.forEach { if (it is Damageable) it.damage(damage) }
                         return@CommandExecutor
                     } else {
                         sender.sendMessage("Too few arguments, /damage <selector> <amount>")
