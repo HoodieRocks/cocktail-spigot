@@ -24,6 +24,7 @@ class Cocktail : JavaPlugin() {
         DamageCommand()
         RandCommand()
         TestCommand()
+        TimerCommand(this)
 
         // Spigot API commands
         FlyCommand(this)
