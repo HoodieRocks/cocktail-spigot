@@ -25,12 +25,14 @@ class RandCommand {
             .executes(CommandExecutor { sender, args ->
                 if (sender.isOp) {
                     if (args.size == 4) {
-                        val min = args[0] as Int
-                        val max = args[1] as Int
-                        val player = args[2] as String
+                        val minValue = args[0] as Int
+                        val maxValue = args[1] as Int
+                        val scoreName = args[2] as String
+
+                        // gets objective of name arg
                         val board = Bukkit.getScoreboardManager()!!.mainScoreboard.getObjective(args[3] as String)!!
 
-                        board.getScore(player).score = (min..max).random()
+                        board.getScore(scoreName).score = (minValue..maxValue).random()
                         return@CommandExecutor
                     } else {
                         sender.sendMessage("Too few arguments, /random <min> <max> <name> <board>")

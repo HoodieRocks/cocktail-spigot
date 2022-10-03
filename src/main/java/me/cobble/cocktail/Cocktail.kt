@@ -36,6 +36,7 @@ class Cocktail : JavaPlugin() {
 
         ReportManager.load(this)
 
+        // autosave
         Bukkit.getScheduler().runTaskTimer(this, Runnable { ReportManager.save(this) }, 200, 200)
 
     }

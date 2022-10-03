@@ -27,7 +27,8 @@ class TimerCommand(plugin: Cocktail) {
                         val function = args[2] as Array<*>
 
                         function.forEach {
-                            if (it is FunctionWrapper) Bukkit.getScheduler().runTaskLater(
+                            // if you receive reports of timer not working correctly or smth, change this back to sync
+                            if (it is FunctionWrapper) Bukkit.getScheduler().runTaskLaterAsynchronously(
                                 plugin,
                                 Runnable { it.runAs(entity) },
                                 time.toLong()

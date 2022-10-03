@@ -20,6 +20,7 @@ class DamageCommand {
                         val entity = args[0] as ArrayList<*>
                         val damage = args[1] as Double
 
+                        // loop through all entities, if they can be damaged, do so
                         entity.forEach { if (it is Damageable) it.damage(damage) }
                         return@CommandExecutor
                     } else {

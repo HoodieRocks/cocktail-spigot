@@ -5,6 +5,7 @@ import dev.jorel.commandapi.executors.CommandExecutor
 
 class TestCommand {
     init {
-        CommandAPICommand("test").executes(CommandExecutor { sender, _ -> sender.sendMessage("Woohoo!") })
+        CommandAPICommand("test")
+            .executes(CommandExecutor { sender, _ -> sender.sendMessage("Cocktail test complete!") })
     }
 }

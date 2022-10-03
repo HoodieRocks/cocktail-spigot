@@ -22,7 +22,7 @@ object HTTPUtils {
         .build()
 
     fun getDatapacks() {
-        val uri = URI.create(Config.get().getString("datapack-url")!!)
+        val uri = URI.create(Config.getString("datapack-url"))
         val request = HttpRequest.newBuilder().uri(uri).build()
 
         val stream = client.sendAsync(request, BodyHandlers.ofInputStream())

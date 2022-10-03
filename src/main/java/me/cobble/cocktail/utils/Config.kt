@@ -11,7 +11,7 @@ object Config {
     private var file: File? = null
     private var config: YamlConfiguration? = null
 
-    fun setup() { // NO_UCD (use default)
+    fun setup() {
         file = File(
             Bukkit.getServer().pluginManager.getPlugin("Cocktail")?.dataFolder,
             "config.yml"
@@ -50,6 +50,6 @@ object Config {
 
     fun reload() { // NO_UCD (unused code)
         config = YamlConfiguration.loadConfiguration(file!!)
-        log.info("Glow Config reloaded")
+        log.info("Cocktail Config reloaded")
     }
 }
