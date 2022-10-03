@@ -56,74 +56,82 @@ class ReportCommand(plugin: Cocktail) : TabExecutor {
                     sender.sendMessage(Color.color("&c/report <player> <reason>"))
                 }
             } else {
-                val reports = ReportManager.getAllReports()
-                val component = ComponentBuilder()
-
-                val backComponent: TextComponent?
-                val forwardComponent: TextComponent?
-
-                if (args.size == 1) {
-                    if (args[0] != "0") {
-                        backComponent = TextComponent(Color.color("&6«"))
-                        backComponent.clickEvent =
-                            ClickEvent(ClickEvent.Action.RUN_COMMAND, "/report ${args[0].toInt() - 1}")
-                    } else {
-                        backComponent = TextComponent(Color.color("&7«"))
-                    }
-
-                    if (args[0].toInt() > reports.size / 10) {
-                        forwardComponent = TextComponent(Color.color("&7»"))
-                    } else {
-                        forwardComponent = TextComponent(Color.color("&6»"))
-                        forwardComponent.clickEvent =
-                            ClickEvent(ClickEvent.Action.RUN_COMMAND, "/report ${args[0].toInt() + 1}")
-                    }
-
-                    component.append(backComponent)
-                    component.append(Color.color("&7 | "))
-                    component.append(forwardComponent)
-
-                    sender.sendMessage(Color.color("\n&e&lReports &fPage ${args[0]} of ${(reports.size / 10) + 1}"))
-                    for (i in args[0].toInt() until 10 * args[0].toInt()) {
-                        if (reports.size == i) break
-                        val report = reports.values.random()
-                        sender.sendMessage(Color.color("&7---"))
-                        sender.sendMessage(Color.color("&eID: &f${report.id}"))
-                        sender.sendMessage(Color.color("&eSender: &f${report.player.name}"))
-                        sender.sendMessage(Color.color("&eReason: &d${report.reportedPlayer.name}&f reported for ${report.reason} at &7${report.reportTime}\n"))
-                    }
-                    sender.spigot().sendMessage(*component.create())
-                } else {
-                    backComponent = TextComponent(Color.color("&7«"))
-
-                    if (reports.size < 10) {
-                        forwardComponent = TextComponent(Color.color("&7»"))
-                    } else {
-                        forwardComponent = TextComponent(Color.color("&6»"))
-                        forwardComponent.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/report 2")
-                    }
-
-                    component.append(backComponent)
-                    component.append(Color.color("&7 | "))
-                    component.append(forwardComponent)
-
-                    sender.sendMessage(Color.color("&e&lReports &fPage 1 of ${(reports.size / 10) + 1}"))
-                    for (i in 0 until 10) {
-                        if (reports.size == i) break
-                        val report = reports.values.random()
-                        sender.sendMessage(Color.color("&7---"))
-                        sender.sendMessage(Color.color("&eID: &f${report.id}"))
-                        sender.sendMessage(Color.color("&eSender: &f${report.player.name}"))
-                        sender.sendMessage(Color.color("&eReason: &d${report.reportedPlayer.name} &7reported for &f${report.reason} &7at &d${report.reportTime}\n"))
-                    }
-                    sender.spigot().sendMessage(*component.create())
-                }
-                return true
+                return operatorView(args, sender)
             }
         } else {
             sender.sendMessage(Color.color("&cThis can not be used by the console"))
             return false
         }
         return false
+    }
+
+    private fun operatorView(args: Array<out String>, sender: CommandSender): Boolean {
+        val reports = ReportManager.getAllReports()
+        val component = ComponentBuilder()
+
+        val backComponent: TextComponent?
+        val forwardComponent: TextComponent?
+
+        if (args.size == 1) {
+            if (args[0] != "0") {
+                backComponent = TextComponent(Color.color("&6«"))
+                backComponent.clickEvent =
+                    ClickEvent(ClickEvent.Action.RUN_COMMAND, "/report ${args[0].toInt() - 1}")
+            } else backComponent = TextComponent(Color.color("&7«"))
+
+            if (args[0].toInt() > reports.size / 10) forwardComponent = TextComponent(Color.color("&7»"))
+            else {
+                forwardComponent = TextComponent(Color.color("&6»"))
+                forwardComponent.clickEvent =
+                    ClickEvent(ClickEvent.Action.RUN_COMMAND, "/report ${args[0].toInt() + 1}")
+            }
+
+            component.append(backComponent)
+            component.append(Color.color("&7 | "))
+            component.append(forwardComponent)
+
+            sender.sendMessage(Color.color("\n&e&lReports &fPage ${args[0]} of ${(reports.size / 10) + 1}"))
+            for (i in args[0].toInt() until 10 * args[0].toInt()) {
+                if (reports.size == i) break
+                val report = reports.values.random()
+                sender.sendMessage(
+                    Color.color(
+                        "&7---\n" +
+                                "&eID: &f${report.id}\n" +
+                                "&eSender: &f${report.player.name}\n" +
+                                "&eReason: &d${report.reportedPlayer.name}&f reported for ${report.reason} at &7${report.reportTime}\n"
+                    )
+                )
+            }
+            sender.spigot().sendMessage(*component.create())
+        } else {
+            backComponent = TextComponent(Color.color("&7«"))
+
+            if (reports.size < 10) forwardComponent = TextComponent(Color.color("&7»"))
+            else {
+                forwardComponent = TextComponent(Color.color("&6»"))
+                forwardComponent.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/report 2")
+            }
+
+            component.append(backComponent)
+            component.append(Color.color("&7 | "))
+            component.append(forwardComponent)
+
+            sender.sendMessage(Color.color("&e&lReports &fPage 1 of ${(reports.size / 10) + 1}"))
+            for (i in 0 until 10) {
+                if (reports.size == i) break
+                val report = reports.values.random()
+                sender.sendMessage(
+                    Color.color(
+                        "&7---\n" +
+                                "&eID: &f${report.id}\n" +
+                                "&eSender: &f${report.player.name}\n" +
+                                "&eReason: &d${report.reportedPlayer.name} &7reported for &f${report.reason} &7at &d${report.reportTime}\n"
+                    )
+                )
+            }
+            sender.spigot().sendMessage(*component.create())
+        }
+        return true
     }
 }
