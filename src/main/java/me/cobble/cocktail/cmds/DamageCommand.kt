@@ -5,7 +5,7 @@ import dev.jorel.commandapi.arguments.DoubleArgument
 import dev.jorel.commandapi.arguments.EntitySelector
 import dev.jorel.commandapi.arguments.EntitySelectorArgument
 import dev.jorel.commandapi.executors.CommandExecutor
-import me.cobble.cocktail.utils.Color
+import me.cobble.cocktail.utils.Strings
 import org.bukkit.entity.Damageable
 import org.bukkit.entity.Entity
 
@@ -28,7 +28,7 @@ class DamageCommand {
                         return@CommandExecutor
                     }
                 } else {
-                    sender.sendMessage(Color.color("&cNo permission!"))
+                    sender.sendMessage(Strings.color("&cNo permission!"))
                     return@CommandExecutor
                 }
             })

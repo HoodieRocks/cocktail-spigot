@@ -3,7 +3,7 @@ package me.cobble.cocktail.cmds
 import dev.jorel.commandapi.CommandAPICommand
 import dev.jorel.commandapi.arguments.IntegerArgument
 import dev.jorel.commandapi.executors.ResultingCommandExecutor
-import me.cobble.cocktail.utils.Color
+import me.cobble.cocktail.utils.Strings
 import org.bukkit.Bukkit
 
 
@@ -28,7 +28,7 @@ class RandCommand {
                         return@ResultingCommandExecutor 0
                     }
                 } else {
-                    sender.sendMessage(Color.color("&cNo permission!"))
+                    sender.sendMessage(Strings.color("&cNo permission!"))
                     return@ResultingCommandExecutor 0
                 }
             }).register()

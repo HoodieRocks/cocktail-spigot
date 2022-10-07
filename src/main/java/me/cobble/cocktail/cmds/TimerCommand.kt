@@ -8,7 +8,7 @@ import dev.jorel.commandapi.arguments.TimeArgument
 import dev.jorel.commandapi.executors.CommandExecutor
 import dev.jorel.commandapi.wrappers.FunctionWrapper
 import me.cobble.cocktail.Cocktail
-import me.cobble.cocktail.utils.Color
+import me.cobble.cocktail.utils.Strings
 import org.bukkit.Bukkit
 import org.bukkit.entity.Entity
 
@@ -35,7 +35,7 @@ class TimerCommand(plugin: Cocktail) {
                             )
                         }
                     } else {
-                        sender.sendMessage(Color.color("&cToo little arguments"))
+                        sender.sendMessage(Strings.color("&cToo little arguments"))
                     }
                 }
             })

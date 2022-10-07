@@ -14,28 +14,25 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.util.*
 
-object ReportManager {
+object Reports {
 
-    private val reports = hashMapOf<UUID, Report>()
+    private val reports = arrayListOf<Report>()
 
-    fun createReport(sender: Player, reportedPlayer: Player, reason: String, time: LocalDateTime) {
-        val id = UUID.randomUUID()
-        reports[id] = Report(id, sender, reportedPlayer, reason, time)
-    }
-
-    private fun createReportWithSetUUID(
-        uuid: UUID,
+    private fun createReportWithSpecifiedId(
+        id: String,
         sender: Player,
         reportedPlayer: Player,
         reason: String,
         time: LocalDateTime
     ) {
-        reports[uuid] = Report(uuid, sender, reportedPlayer, reason, time)
+        reports.add(Report(id, sender, reportedPlayer, reason, time))
     }
 
-    fun getAllReports(): HashMap<UUID, Report> {
-        return reports
+    fun createReport(sender: Player, reportedPlayer: Player, reason: String, time: LocalDateTime) {
+        reports.add(Report(Strings.randomString(8), sender, reportedPlayer, reason, time))
     }
+
+    fun getAllReports(): ArrayList<Report> = reports
 
     fun save(plugin: Cocktail) {
         val gson = Gson()
@@ -53,13 +50,13 @@ object ReportManager {
 
         val writer = FileWriter(file)
 
-        for (reportEntry in reports) {
+        reports.forEach {
             val jsonObject = JsonObject()
-            jsonObject.addProperty("uuid", reportEntry.key.toString())
-            jsonObject.addProperty("time", reportEntry.value.reportTime.toInstant(ZoneOffset.UTC).toEpochMilli())
-            jsonObject.addProperty("reportUUID", reportEntry.value.player.uniqueId.toString())
-            jsonObject.addProperty("reportedPlayerUUID", reportEntry.value.reportedPlayer.uniqueId.toString())
-            jsonObject.addProperty("reason", reportEntry.value.reason)
+            jsonObject.addProperty("id", it.id)
+            jsonObject.addProperty("time", it.time.toInstant(ZoneOffset.UTC).toEpochMilli())
+            jsonObject.addProperty("reportUUID", it.sender.uniqueId.toString())
+            jsonObject.addProperty("reportedPlayerUUID", it.player.uniqueId.toString())
+            jsonObject.addProperty("reason", it.reason)
             jsonArray.add(jsonObject)
         }
 
@@ -90,9 +87,9 @@ object ReportManager {
             val player = Bukkit.getPlayer(UUID.fromString(jsonObject.get("reportUUID").asString))!!
             val reportedPlayer = Bukkit.getPlayer(UUID.fromString(jsonObject.get("reportedPlayerUUID").asString))!!
             val reason = jsonObject.get("reason").asString
-            val uuid = jsonObject.get("uuid").asString
-            createReportWithSetUUID(
-                UUID.fromString(uuid),
+            val id = jsonObject.get("id").asString
+            createReportWithSpecifiedId(
+                id,
                 player,
                 reportedPlayer,
                 reason,

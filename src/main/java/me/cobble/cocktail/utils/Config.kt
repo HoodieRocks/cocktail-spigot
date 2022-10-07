@@ -28,17 +28,11 @@ object Config {
         config = YamlConfiguration.loadConfiguration(file!!)
     }
 
-    fun get(): FileConfiguration {
-        return config!!
-    }
+    fun get(): FileConfiguration = config!!
 
-    fun getString(path: String): String {
-        return get().getString(path)!!
-    }
+    fun getString(path: String): String = get().getString(path)!!
 
-    fun getBool(path: String): Boolean {
-        return get().getBoolean(path)
-    }
+    fun getBool(path: String): Boolean = get().getBoolean(path)
 
     fun save() { // NO_UCD (use default)
         try {

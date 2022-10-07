@@ -4,7 +4,7 @@ import me.cobble.cocktail.cmds.*
 import me.cobble.cocktail.listeners.OverrideReloadCommandListener
 import me.cobble.cocktail.utils.Config
 import me.cobble.cocktail.utils.HTTPUtils
-import me.cobble.cocktail.utils.ReportManager
+import me.cobble.cocktail.utils.Reports
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -35,16 +35,16 @@ class Cocktail : JavaPlugin() {
         // Override /minecraft:reload
         OverrideReloadCommandListener(this)
 
-        ReportManager.load(this)
+        Reports.load(this)
 
         // autosave
-        Bukkit.getScheduler().runTaskTimer(this, Runnable { ReportManager.save(this) }, 200, 200)
+        Bukkit.getScheduler().runTaskTimer(this, Runnable { Reports.save(this) }, 200, 200)
 
     }
 
     override fun onDisable() {
         // Plugin shutdown logic
-        ReportManager.save(this)
+        Reports.save(this)
 
     }
 }
