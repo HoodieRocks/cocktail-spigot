@@ -21,8 +21,8 @@ is working and the plugin is ready to use in datapacks
 
 ### Non-Operators
 
-`/report <player> <reasons>` - Reports a player
+`/report <player> <reasons>` - Reports a player `[DEPRECATED] Needs reworking`
 
 ### Operator
 
-`/report [page]` - Shows the reports
+`/report [page]` - Shows the reports `[DEPRECATED] Needs reworking`
