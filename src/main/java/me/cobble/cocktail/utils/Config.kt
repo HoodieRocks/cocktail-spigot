@@ -32,16 +32,6 @@ object Config {
 
     fun getString(path: String): String = get().getString(path)!!
 
-    fun getBool(path: String): Boolean = get().getBoolean(path)
-
-    fun save() { // NO_UCD (use default)
-        try {
-            config!!.save(file!!)
-        } catch (e: IOException) {
-            System.err.println("Couldn't save file")
-        }
-    }
-
     fun reload() { // NO_UCD (unused code)
         config = YamlConfiguration.loadConfiguration(file!!)
         log.info("Cocktail Config reloaded")

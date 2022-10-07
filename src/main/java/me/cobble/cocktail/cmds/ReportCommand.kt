@@ -18,7 +18,6 @@ import java.time.LocalDateTime
 class ReportCommand(plugin: Cocktail) : TabExecutor {
 
     init {
-        // TODO: Rework reporting
         plugin.getCommand("report")!!.setExecutor(this)
         plugin.getCommand("report")!!.tabCompleter = this
     }
@@ -64,7 +63,7 @@ class ReportCommand(plugin: Cocktail) : TabExecutor {
             // Operators
             val reports = Reports.getAllReports()
 
-            if(args.isEmpty()) sender.sendMessage(Strings.color("&c/report <page> | remove <id>"))
+            if (args.isEmpty()) sender.sendMessage(Strings.color("&c/report <page> | remove <id>"))
 
             if (args.size == 1) {
                 if (reports.isNotEmpty()) {
@@ -100,9 +99,9 @@ class ReportCommand(plugin: Cocktail) : TabExecutor {
                 }
             }
 
-            if(args.size == 2 && args[0].equals("remove", true)) {
+            if (args.size == 2 && args[0].equals("remove", true)) {
                 val report = reports.find { it.id == args[1] }
-                if(report != null) {
+                if (report != null) {
                     reports.remove(report)
                     sender.sendMessage(Strings.color("&aReport removed!"))
                 } else {
