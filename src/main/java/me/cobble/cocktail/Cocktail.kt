@@ -16,8 +16,8 @@ class Cocktail : JavaPlugin() {
 
         this.saveDefaultConfig()
         Config.setup()
-
-        HTTPUtils.getDatapacks()
+        
+        if(Config.getString("pack-downloader") HTTPUtils.getDatapacks()
 
         // TODO: Reimplement Fetch Command when API is available
         // Command API commands
