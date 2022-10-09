@@ -1,3 +1,5 @@
 testing: true
 
+pack-downloader: true
+
 datapack-url: "https://github.com/Daily-Datapackers/datapack/archive/refs/heads/main.zip"
