@@ -11,27 +11,29 @@ class CollisionCommand {
 
     init {
         CommandAPICommand("collision")
-            .withSubcommand(CommandAPICommand("enable")
-                .withArguments(EntitySelectorArgument<Collection<Entity>>("entities",EntitySelector.MANY_ENTITIES))
-                .executes(CommandExecutor { sender, args ->
-                    if(sender.isOp) {
-                        val entities = args[0] as Collection<*>
-                        entities.forEach {
-                            if(it is LivingEntity) it.isCollidable = true
+            .withSubcommand(
+                CommandAPICommand("enable")
+                    .withArguments(EntitySelectorArgument<Collection<Entity>>("entities", EntitySelector.MANY_ENTITIES))
+                    .executes(CommandExecutor { sender, args ->
+                        if (sender.isOp) {
+                            val entities = args[0] as Collection<*>
+                            entities.forEach {
+                                if (it is LivingEntity) it.isCollidable = true
+                            }
                         }
-                    }
-                })
+                    })
             )
-            .withSubcommand(CommandAPICommand("disable")
-                .withArguments(EntitySelectorArgument<Collection<Entity>>("entities",EntitySelector.MANY_ENTITIES))
-                .executes(CommandExecutor { sender, args ->
-                    if(sender.isOp) {
-                        val entities = args[0] as Collection<*>
-                        entities.forEach {
-                            if(it is LivingEntity) it.isCollidable = false
+            .withSubcommand(
+                CommandAPICommand("disable")
+                    .withArguments(EntitySelectorArgument<Collection<Entity>>("entities", EntitySelector.MANY_ENTITIES))
+                    .executes(CommandExecutor { sender, args ->
+                        if (sender.isOp) {
+                            val entities = args[0] as Collection<*>
+                            entities.forEach {
+                                if (it is LivingEntity) it.isCollidable = false
+                            }
                         }
-                    }
-                })
+                    })
             )
             .register()
     }

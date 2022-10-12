@@ -1,7 +1,9 @@
 package me.cobble.cocktail.cmds
 
 import dev.jorel.commandapi.CommandAPICommand
-import dev.jorel.commandapi.arguments.*
+import dev.jorel.commandapi.arguments.ArgumentSuggestions
+import dev.jorel.commandapi.arguments.DoubleArgument
+import dev.jorel.commandapi.arguments.ObjectiveArgument
 import dev.jorel.commandapi.executors.CommandExecutor
 import dev.jorel.commandapi.executors.ProxyCommandExecutor
 import org.bukkit.Bukkit
