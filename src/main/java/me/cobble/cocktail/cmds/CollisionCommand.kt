@@ -20,6 +20,7 @@ class CollisionCommand {
                             entities.forEach {
                                 if (it is LivingEntity) it.isCollidable = true
                             }
+                            sender.sendMessage("Hello")
                         }
                     })
             )
@@ -32,6 +33,7 @@ class CollisionCommand {
                             entities.forEach {
                                 if (it is LivingEntity) it.isCollidable = false
                             }
+                            sender.sendMessage("goodbye")
                         }
                     })
             )

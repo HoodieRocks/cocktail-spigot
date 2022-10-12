@@ -26,7 +26,6 @@ class Cocktail : JavaPlugin() {
         TestCommand()
         TimerCommand(this)
         VelocityCommand()
-        CollisionCommand()
 
         // Spigot API commands
         FlyCommand(this)
