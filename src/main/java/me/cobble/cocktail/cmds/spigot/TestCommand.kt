@@ -1,4 +1,4 @@
-package me.cobble.cocktail.cmds
+package me.cobble.cocktail.cmds.spigot
 
 import dev.jorel.commandapi.CommandAPICommand
 import dev.jorel.commandapi.executors.CommandExecutor

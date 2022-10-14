@@ -1,4 +1,4 @@
-package me.cobble.cocktail.cmds
+package me.cobble.cocktail.cmds.spigot
 
 import me.cobble.cocktail.Cocktail
 import me.cobble.cocktail.utils.Report
@@ -75,7 +75,9 @@ class ReportCommand(plugin: Cocktail) : TabExecutor {
 
                     sender.sendMessage("\n")
 
-                    for (i in (page * 5) - 5..page * 5) {
+                    val minRange = if (reports.size > page * 5) (page * 5) - 5 else 0
+
+                    for (i in minRange..page * 5) {
                         val report: Report =
                             if (page == 1) reports[i]
                             else reports[i - 1]

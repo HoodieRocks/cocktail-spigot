@@ -1,4 +1,4 @@
-package me.cobble.cocktail.cmds
+package me.cobble.cocktail.cmds.cmdapi
 
 import dev.jorel.commandapi.CommandAPICommand
 import dev.jorel.commandapi.arguments.DoubleArgument

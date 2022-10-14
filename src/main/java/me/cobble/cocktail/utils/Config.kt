@@ -32,6 +32,8 @@ object Config {
 
     fun getString(path: String): String = get().getString(path)!!
 
+    fun getBool(path: String): Boolean = get().getBoolean(path)
+
     fun reload() { // NO_UCD (unused code)
         config = YamlConfiguration.loadConfiguration(file!!)
         log.info("Cocktail Config reloaded")

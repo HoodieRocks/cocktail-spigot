@@ -17,13 +17,12 @@ object Strings {
         var i = 0
         while (i < texts.size) {
             if (texts[i].equals("&", ignoreCase = true)) {
-                //get the next string
+                // Get the next string
                 i++
-                if (texts[i][0] == '#') {
-                    finalText.append(ChatColor.of(texts[i].substring(0, 7)).toString() + texts[i].substring(7))
-                } else {
-                    finalText.append(ChatColor.translateAlternateColorCodes('&', "&" + texts[i]))
-                }
+                if (texts[i][0] == '#') finalText.append(
+                    ChatColor.of(texts[i].substring(0, 7)).toString() + texts[i].substring(7)
+                )
+                else finalText.append(ChatColor.translateAlternateColorCodes('&', "&" + texts[i]))
             } else {
                 finalText.append(texts[i])
             }

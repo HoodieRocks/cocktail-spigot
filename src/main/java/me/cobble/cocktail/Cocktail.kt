@@ -1,6 +1,13 @@
 package me.cobble.cocktail
 
-import me.cobble.cocktail.cmds.*
+import me.cobble.cocktail.cmds.cmdapi.DamageCommand
+import me.cobble.cocktail.cmds.cmdapi.RandCommand
+import me.cobble.cocktail.cmds.cmdapi.TimerCommand
+import me.cobble.cocktail.cmds.cmdapi.VelocityCommand
+import me.cobble.cocktail.cmds.spigot.CocktailCheck
+import me.cobble.cocktail.cmds.spigot.FlyCommand
+import me.cobble.cocktail.cmds.spigot.ReportCommand
+import me.cobble.cocktail.cmds.spigot.TestCommand
 import me.cobble.cocktail.listeners.OverrideReloadCommandListener
 import me.cobble.cocktail.utils.Config
 import me.cobble.cocktail.utils.HTTPUtils
