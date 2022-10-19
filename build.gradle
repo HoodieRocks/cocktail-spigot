@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm' version '1.7.10'
+    id 'io.gitlab.arturbosch.detekt' version '1.21.0'
 }
 
 group = 'me.cobble'
@@ -67,4 +68,10 @@ compileTestKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+}
+
+detekt {
+    buildUponDefaultConfig = true // preconfigure defaults
+    allRules = false // activate all available (even unstable) rules.
+    config = files("$projectDir/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
 }

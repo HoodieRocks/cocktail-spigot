@@ -9,7 +9,7 @@ import java.io.IOException
 object Config {
     private val log = Bukkit.getLogger()
     private var file: File? = null
-    private var config: YamlConfiguration? = null
+    private var yamlFile: YamlConfiguration? = null
 
     fun setup() {
         file = File(
@@ -22,20 +22,20 @@ object Config {
                 file!!.createNewFile()
             } catch (e: IOException) {
                 // that's a lot of damage
-                e.printStackTrace()
+                log.severe(e.message)
             }
         }
-        config = YamlConfiguration.loadConfiguration(file!!)
+        yamlFile = YamlConfiguration.loadConfiguration(file!!)
     }
 
-    fun get(): FileConfiguration = config!!
+    fun get(): FileConfiguration = yamlFile!!
 
     fun getString(path: String): String = get().getString(path)!!
 
     fun getBool(path: String): Boolean = get().getBoolean(path)
 
     fun reload() { // NO_UCD (unused code)
-        config = YamlConfiguration.loadConfiguration(file!!)
+        yamlFile = YamlConfiguration.loadConfiguration(file!!)
         log.info("Cocktail Config reloaded")
     }
 }

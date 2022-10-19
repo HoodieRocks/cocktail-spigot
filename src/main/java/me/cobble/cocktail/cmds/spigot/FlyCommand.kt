@@ -15,7 +15,7 @@ class FlyCommand(plugin: Cocktail) : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (sender.isOp && sender is Player) {
             if (args.size == 1) {
-                sender.flySpeed = (args[0].toFloat() / 10f)
+                sender.flySpeed = (args[0].toFloat() / 10)
                 sender.sendMessage("Your fly speed is now ${args[0]}")
                 return true
             } else sender.sendMessage("Please supply a number")

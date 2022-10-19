@@ -13,6 +13,7 @@ import org.bukkit.util.Vector
 class VelocityCommand {
 
     init {
+        val precisionExtender = 1000
         val suggestionsNames = arrayListOf<String>()
         Bukkit.getServer().scoreboardManager?.mainScoreboard?.objectives?.forEach { suggestionsNames.add(it.name) }
         val suggestions = ArgumentSuggestions.strings(*suggestionsNames.toTypedArray())
@@ -76,18 +77,18 @@ class VelocityCommand {
                         if (sender.isOp && sender is Entity) {
                             val board =
                                 Bukkit.getScoreboardManager()!!.mainScoreboard.getObjective(args[0] as String)!!
-                            val x = board.getScore("x").score.toDouble() / 1000
-                            val y = board.getScore("y").score.toDouble() / 1000
-                            val z = board.getScore("z").score.toDouble() / 1000
+                            val x = board.getScore("x").score.toDouble() / precisionExtender
+                            val y = board.getScore("y").score.toDouble() / precisionExtender
+                            val z = board.getScore("z").score.toDouble() / precisionExtender
                             sender.velocity = Vector(x, y, z)
                         }
                     })
                     .executesProxy(ProxyCommandExecutor { sender, args ->
                         if (sender.caller.isOp && sender.callee is Entity) {
                             val board = Bukkit.getScoreboardManager()!!.mainScoreboard.getObjective(args[0] as String)!!
-                            val x = board.getScore("x").score.toDouble() / 1000
-                            val y = board.getScore("y").score.toDouble() / 1000
-                            val z = board.getScore("z").score.toDouble() / 1000
+                            val x = board.getScore("x").score.toDouble() / precisionExtender
+                            val y = board.getScore("y").score.toDouble() / precisionExtender
+                            val z = board.getScore("z").score.toDouble() / precisionExtender
                             (sender.callee as Entity).velocity = Vector(x, y, z)
                         }
                     })

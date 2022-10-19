@@ -16,19 +16,21 @@ import java.util.*
 
 object Reports {
 
-    private val reports = arrayListOf<Report>()
+    private val allReports = arrayListOf<Report>()
+    private const val idLength = 8
+    private const val autoSaveTime: Long = 200
 
     fun createReport(
         sender: Player,
         player: Player,
         reason: String,
         time: LocalDateTime,
-        id: String = Strings.randomString(8)
+        id: String = Strings.randomString(idLength)
     ) {
-        reports.add(Report(id, sender, player, reason, time))
+        allReports.add(Report(id, sender, player, reason, time))
     }
 
-    fun getAllReports(): ArrayList<Report> = reports
+    fun getAllReports(): ArrayList<Report> = allReports
 
     fun save(plugin: Cocktail) {
         val gson = Gson()
@@ -45,7 +47,7 @@ object Reports {
 
         val writer = FileWriter(file)
 
-        reports.forEach {
+        allReports.forEach {
             val jsonObject = JsonObject()
             jsonObject.addProperty("id", it.id)
             jsonObject.addProperty("time", it.time.toInstant(ZoneOffset.UTC).toEpochMilli())
@@ -90,5 +92,9 @@ object Reports {
 
         reader.close()
 
+    }
+
+    fun startAutoSave(plugin: Cocktail) {
+        Bukkit.getScheduler().runTaskTimer(plugin, Runnable { save(plugin) }, autoSaveTime, autoSaveTime)
     }
 }

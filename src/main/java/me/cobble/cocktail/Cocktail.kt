@@ -12,7 +12,6 @@ import me.cobble.cocktail.listeners.OverrideReloadCommandListener
 import me.cobble.cocktail.utils.Config
 import me.cobble.cocktail.utils.HTTPUtils
 import me.cobble.cocktail.utils.Reports
-import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
 
@@ -24,9 +23,8 @@ class Cocktail : JavaPlugin() {
         this.saveDefaultConfig()
         Config.setup()
 
-        if (Config.get().getBoolean("pack-downloader")) HTTPUtils.getDatapacks()
+        if (Config.getBool("pack-downloader")) HTTPUtils.getDatapacks()
 
-        // TODO: Reimplement Fetch Command when API is available
         // Command API commands
         DamageCommand()
         RandCommand()
@@ -43,9 +41,7 @@ class Cocktail : JavaPlugin() {
         OverrideReloadCommandListener(this)
 
         Reports.load(this)
-
-        // auto-save
-        Bukkit.getScheduler().runTaskTimer(this, Runnable { Reports.save(this) }, 200, 200)
+        Reports.startAutoSave(this)
 
     }
 

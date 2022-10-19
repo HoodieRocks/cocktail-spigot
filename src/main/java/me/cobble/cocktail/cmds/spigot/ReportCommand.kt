@@ -17,6 +17,8 @@ import java.time.LocalDateTime
 
 class ReportCommand(plugin: Cocktail) : TabExecutor {
 
+    private val pageLength = 5
+
     init {
         plugin.getCommand("report")!!.setExecutor(this)
         plugin.getCommand("report")!!.tabCompleter = this
@@ -44,77 +46,33 @@ class ReportCommand(plugin: Cocktail) : TabExecutor {
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
-        if (sender is Player) {
-            if (!sender.isOp) {
-                return if (args.size > 1) {
-                    val target = Bukkit.getPlayer(args[0])!!
-                    val reason = args.drop(1).joinToString(separator = " ")
+        if (sender is Player && !sender.isOp) {
+            return nonOperatorView(sender, args)
+        }
 
-                    Reports.createReport(sender, target, reason, LocalDateTime.now())
+        // Operators
+        val reports = Reports.getAllReports()
 
-                    sender.sendMessage(Strings.color("&aReport sent! Thanks for reporting!"))
-                    true
-                } else {
-                    sender.sendMessage(Strings.color("&c/report <player> <reason>"))
-                    false
-                }
-            }
+        if (args.isEmpty()) sender.sendMessage(Strings.color("&c/report <page> | remove <id>"))
 
-            // Operators
-            val reports = Reports.getAllReports()
-
-            if (args.isEmpty()) sender.sendMessage(Strings.color("&c/report <page> | remove <id>"))
-
-            if (args.size == 1) {
-                if (reports.isNotEmpty()) {
-                    val page = validatePageNumber(args[0].toInt(), reports.size / 5)
-                    val arrows =
-                        if (page >= reports.size / 5) createArrows(page, backAllowed = true, forwardAllowed = false)
-                        else if (page <= 1) createArrows(page, backAllowed = false, forwardAllowed = true)
-                        else createArrows(page, backAllowed = true, forwardAllowed = true)
-
-                    sender.sendMessage("\n")
-
-                    val minRange = if (reports.size > page * 5) (page * 5) - 5 else 0
-
-                    for (i in minRange..page * 5) {
-                        val report: Report =
-                            if (page == 1) reports[i]
-                            else reports[i - 1]
-
-                        sender.sendMessage(
-                            Strings.color(
-                                "\n&eReport ID&7: &f${report.id}\n" +
-                                        "&eReporter&7: &d${report.sender.name}\n" +
-                                        "&ePlayer&7: &d${report.player.name}\n" +
-                                        "&eReason&7: &f${report.reason}\n"
-                            )
-                        )
-                    }
-
-                    sender.spigot().sendMessage(*arrows)
-                    sender.sendMessage("\n")
-                    return true
-                } else {
-                    sender.sendMessage(Strings.color("&aCongrats, there are no reports :D"))
-                    return true
-                }
-            }
-
-            if (args.size == 2 && args[0].equals("remove", true)) {
-                val report = reports.find { it.id == args[1] }
-                if (report != null) {
-                    reports.remove(report)
-                    sender.sendMessage(Strings.color("&aReport removed!"))
-                } else {
-                    sender.sendMessage(Strings.color("&cReport not found!"))
-                }
+        if (args.size == 1) {
+            return if (reports.isNotEmpty()) {
+                sendReportView(sender, reports, args)
+                true
             } else {
-                sender.sendMessage(Strings.color("&c/report <page> | remove <id>"))
-                return false
+                sender.sendMessage(Strings.color("&aCongrats, there are no reports :D"))
+                true
             }
+        }
+
+        if (args.size == 2 && args[0].equals("remove", true)) {
+            val report = reports.find { it.id == args[1] }
+            if (report != null) {
+                reports.remove(report)
+                sender.sendMessage(Strings.color("&aReport removed!"))
+            } else sender.sendMessage(Strings.color("&cReport not found!"))
         } else {
-            sender.sendMessage(Strings.color("&cThis can not be used by the console"))
+            sender.sendMessage(Strings.color("&c/report <page> | remove <id>"))
             return false
         }
         return false
@@ -122,20 +80,20 @@ class ReportCommand(plugin: Cocktail) : TabExecutor {
 
     private fun createArrows(
         index: Int,
-        backAllowed: Boolean = false,
-        forwardAllowed: Boolean = true
+        allowBack: Boolean = false,
+        allowForward: Boolean = true
     ): Array<BaseComponent> {
         lateinit var backArrow: TextComponent
         lateinit var forwardArrow: TextComponent
 
-        if (backAllowed) {
+        if (allowBack) {
             backArrow = TextComponent(Strings.color("&6«"))
             backArrow.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/report ${index - 1}")
         } else {
             backArrow = TextComponent(Strings.color("&7«"))
         }
 
-        if (forwardAllowed) {
+        if (allowForward) {
             forwardArrow = TextComponent(Strings.color("&6»"))
             forwardArrow.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/report ${index + 1}")
         } else {
@@ -154,5 +112,50 @@ class ReportCommand(plugin: Cocktail) : TabExecutor {
             page = max
         }
         return page
+    }
+
+    private fun nonOperatorView(sender: Player, args: Array<out String>): Boolean {
+        return if (args.size > 1) {
+            val target = Bukkit.getPlayer(args[0])!!
+            val reason = args.drop(1).joinToString(separator = " ")
+
+            Reports.createReport(sender, target, reason, LocalDateTime.now())
+
+            sender.sendMessage(Strings.color("&aReport sent! Thanks for reporting!"))
+            true
+        } else {
+            sender.sendMessage(Strings.color("&c/report <player> <reason>"))
+            false
+        }
+    }
+
+    private fun sendReportView(sender: CommandSender, reports: ArrayList<Report>, args: Array<out String>) {
+        val page = validatePageNumber(args[0].toInt(), reports.size / pageLength)
+        val arrows =
+            if (page >= reports.size / pageLength) createArrows(page, allowBack = true, allowForward = false)
+            else if (page <= 1) createArrows(page, allowBack = false, allowForward = true)
+            else createArrows(page, allowBack = true, allowForward = true)
+
+        sender.sendMessage("\n")
+
+        val minRange = if (reports.size > page * pageLength) (page * pageLength) - pageLength else 0
+
+        for (i in minRange..page * pageLength) {
+            val report: Report =
+                if (page == 1) reports[i]
+                else reports[i - 1]
+
+            sender.sendMessage(
+                Strings.color(
+                    "\n&eReport ID&7: &f${report.id}\n" +
+                            "&eReporter&7: &d${report.sender.name}\n" +
+                            "&ePlayer&7: &d${report.player.name}\n" +
+                            "&eReason&7: &f${report.reason}\n"
+                )
+            )
+        }
+
+        sender.spigot().sendMessage(*arrows)
+        sender.sendMessage("\n")
     }
 }
