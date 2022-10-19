@@ -1,20 +1,20 @@
 performance:
-  # in this scenario it cant be avoided
-  SpreadOperator:
-    active: false
+    # in this scenario it cant be avoided
+    SpreadOperator:
+        active: false
 style:
-  # todos are pretty cool
-  ForbiddenComment:
-    active: false
-  # argument length numbers
-  MagicNumber:
-    active: false
-  # intellij no like importing individual java.io imports
-  WildcardImport:
-    active: false
-  # why
-  NewLineAtEndOfFile:
-    active: false
-  # a lot of returns to be "proper"
-  ReturnCount:
-    active: false
+    # todos are pretty cool
+    ForbiddenComment:
+        active: false
+    # argument length numbers
+    MagicNumber:
+        active: false
+    # intellij no like importing individual java.io imports
+    WildcardImport:
+        active: false
+    # why
+    NewLineAtEndOfFile:
+        active: false
+    # a lot of returns to be "proper"
+    ReturnCount:
+        active: false
