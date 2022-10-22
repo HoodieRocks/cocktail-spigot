@@ -2,15 +2,15 @@ name: Cocktail
 version: '${version}'
 main: me.cobble.cocktail.Cocktail
 api-version: 1.19
-depend: [ CommandAPI ] #NBTAPI
+depend: [ CommandAPI ]
 authors: [ Cbble_ ]
 description: Extensions to the default datapack environment
 libraries:
-  - "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10"
+    - "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10"
 commands:
-  flyspeed:
-    description: wee
-  report:
-    description: reports a player
-  ctversion:
-    description: gets version of cocktail
+    flyspeed:
+        description: wee
+    report:
+        description: reports a player
+    ctversion:
+        description: gets version of cocktail
