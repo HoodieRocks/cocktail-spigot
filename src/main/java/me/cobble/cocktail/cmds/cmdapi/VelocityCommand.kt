@@ -15,8 +15,9 @@ class VelocityCommand {
     init {
         val precisionExtender = 1000
         val suggestionsNames = arrayListOf<String>()
-        Bukkit.getServer().scoreboardManager?.mainScoreboard?.objectives?.forEach { suggestionsNames.add(it.name) }
-        val suggestions = ArgumentSuggestions.strings(*suggestionsNames.toTypedArray())
+        val scoreboard = Bukkit.getServer().scoreboardManager?.mainScoreboard!!
+        scoreboard.objectives.forEach { suggestionsNames.add(it.name) }
+        val suggestions = ArgumentSuggestions.strings { suggestionsNames.toTypedArray() }
 
         CommandAPICommand("velocity")
             .withSubcommand(
@@ -75,8 +76,7 @@ class VelocityCommand {
                     .withArguments(ObjectiveArgument("board").replaceSafeSuggestions { suggestions })
                     .executes(CommandExecutor { sender, args ->
                         if (sender.isOp && sender is Entity) {
-                            val board =
-                                Bukkit.getScoreboardManager()!!.mainScoreboard.getObjective(args[0] as String)!!
+                            val board = scoreboard.getObjective(args[0] as String)!!
                             val x = board.getScore("x").score.toDouble() / precisionExtender
                             val y = board.getScore("y").score.toDouble() / precisionExtender
                             val z = board.getScore("z").score.toDouble() / precisionExtender
@@ -85,7 +85,7 @@ class VelocityCommand {
                     })
                     .executesProxy(ProxyCommandExecutor { sender, args ->
                         if (sender.caller.isOp && sender.callee is Entity) {
-                            val board = Bukkit.getScoreboardManager()!!.mainScoreboard.getObjective(args[0] as String)!!
+                            val board = scoreboard.getObjective(args[0] as String)!!
                             val x = board.getScore("x").score.toDouble() / precisionExtender
                             val y = board.getScore("y").score.toDouble() / precisionExtender
                             val z = board.getScore("z").score.toDouble() / precisionExtender

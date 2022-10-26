@@ -65,12 +65,13 @@ compileKotlin {
 }
 compileTestKotlin {
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 }
 
 detekt {
     buildUponDefaultConfig = true // preconfigure defaults
     allRules = false // activate all available (even unstable) rules.
-    config = files("$projectDir/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
+    config = files("$projectDir/detekt.yml")
+    // point to your custom config defining rules to run, overwriting default behavior
 }
