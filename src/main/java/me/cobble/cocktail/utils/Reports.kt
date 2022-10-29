@@ -17,7 +17,7 @@ import java.util.*
 object Reports {
 
     private val allReports = arrayListOf<Report>()
-    private const val idLength = 8
+    private const val idLength = 6
     private const val autoSaveTime: Long = 200
 
     fun createReport(
@@ -25,9 +25,29 @@ object Reports {
         player: Player,
         reason: String,
         time: LocalDateTime,
-        id: String = Strings.randomString(idLength)
+        id: String = Strings.randomBytes(idLength)
     ) {
-        allReports.add(Report(id, sender, player, reason, time))
+        var safeID = id
+        var i = 0
+        var fails = 0
+        while (i < allReports.size) {
+            if (fails == 10) break
+            else if (id == allReports[i].id) {
+                safeID = Strings.randomBytes(idLength)
+                i = 0
+                fails++
+            } else {
+                i++
+            }
+        }
+
+        if (fails == 10) {
+            sender.sendMessage(Strings.color("&cWhoops! We've run into an issue, we've run out of report IDs!"))
+            sender.sendMessage(Strings.color("&cPlease contact your server administrator"))
+            return
+        }
+
+        allReports.add(Report(safeID, sender, player, reason, time))
     }
 
     fun getAllReports(): ArrayList<Report> = allReports

@@ -12,7 +12,7 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
 
-object HTTPUtils {
+object DatapackDownloader {
     private val DATAPACK_PATH = "${Bukkit.getServer().getWorld("world")!!.worldFolder}/datapacks/"
 
     private val client = HttpClient
@@ -28,16 +28,17 @@ object HTTPUtils {
         val stream = client.sendAsync(request, BodyHandlers.ofInputStream())
             .thenApply { obj: HttpResponse<InputStream> -> obj.body() }.join()
 
-        FileOutputStream("$DATAPACK_PATH/pack.zip").use { out -> stream.transferTo(out) }
+        FileOutputStream("$DATAPACK_PATH/${uri.path.split("/").last()}").use { out -> stream.transferTo(out) }
 
-        fixZip()
+        fixZip(uri.path.split("/").last())
 
         Bukkit.getServer().reloadData()
     }
 
-    private fun fixZip() {
-        val fileZip = "$DATAPACK_PATH/pack.zip"
-        val destDir = File("$DATAPACK_PATH/pack-temp/")
+    private fun fixZip(name: String) {
+        val nameWithoutExtension = name.substring((0..name.length - 5))
+        val fileZip = "$DATAPACK_PATH/$name"
+        val destDir = File("$DATAPACK_PATH/$nameWithoutExtension-temp/")
 
         val buffer = ByteArray(4096)
         val zis = ZipInputStream(FileInputStream(fileZip))
@@ -69,8 +70,8 @@ object HTTPUtils {
         zis.closeEntry()
         zis.close()
 
-        val path = File("$DATAPACK_PATH/pack-temp/datapack-main")
-        val packPath = File("$DATAPACK_PATH/pack")
+        val path = File("$DATAPACK_PATH/$nameWithoutExtension-temp/datapack-main")
+        val packPath = File("$DATAPACK_PATH/$nameWithoutExtension")
 
         if (packPath.exists()) {
             packPath.deleteRecursively()

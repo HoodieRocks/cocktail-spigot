@@ -31,12 +31,9 @@ object Strings {
         return finalText.toString()
     }
 
-    fun randomString(length: Int): String {
-        val possibleCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
-        val stringBuilder = StringBuilder()
-        repeat(length) {
-            stringBuilder.append(possibleCharacters.random())
-        }
-        return stringBuilder.toString()
+    fun randomBytes(length: Int): String {
+        val builder = StringBuilder()
+        repeat(length) { builder.append((0x0..0xF).random().toString(16)) }
+        return builder.toString()
     }
 }
