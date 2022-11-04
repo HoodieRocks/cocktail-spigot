@@ -1,3 +1,5 @@
+![cocktail-glass_1f378](https://user-images.githubusercontent.com/62707056/198886948-4f700ee2-fa48-405d-a5ea-443aa14bbb9b.png)
+
 # Cocktail
 
 Cocktail is a plugin meant to expand the capabilities of datapacks via useful commands.
