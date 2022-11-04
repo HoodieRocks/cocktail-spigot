@@ -1,4 +1,4 @@
-package me.cobble.cocktail.cmds.spigot
+package me.cobble.cocktail.cmds.nonfunction
 
 import me.cobble.cocktail.Cocktail
 import me.cobble.cocktail.utils.Report
@@ -72,7 +72,7 @@ class ReportCommand(plugin: Cocktail) : TabExecutor {
                 sender.sendMessage(Strings.color("&aReport removed!"))
             } else sender.sendMessage(Strings.color("&cReport not found!"))
         } else {
-            sender.sendMessage(Strings.color("&c/report <page> | remove <id>"))
+            sender.sendMessage(Strings.color("&c/report <page>|remove <id>"))
             return false
         }
         return false

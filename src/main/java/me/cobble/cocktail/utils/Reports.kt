@@ -71,8 +71,8 @@ object Reports {
             val jsonObject = JsonObject()
             jsonObject.addProperty("id", it.id)
             jsonObject.addProperty("time", it.time.toInstant(ZoneOffset.UTC).toEpochMilli())
-            jsonObject.addProperty("senderUUID", it.sender.uniqueId.toString())
-            jsonObject.addProperty("playerUUID", it.player.uniqueId.toString())
+            jsonObject.addProperty("sender", it.sender.uniqueId.toString())
+            jsonObject.addProperty("player", it.player.uniqueId.toString())
             jsonObject.addProperty("reason", it.reason)
             jsonArray.add(jsonObject)
         }
@@ -103,8 +103,8 @@ object Reports {
 
             val id = jsonObject.get("id").asString
             val time = LocalDateTime.ofInstant(Instant.ofEpochMilli(jsonObject.get("time").asLong), ZoneOffset.UTC)
-            val sender = Bukkit.getPlayer(UUID.fromString(jsonObject.get("senderUUID").asString))!!
-            val player = Bukkit.getPlayer(UUID.fromString(jsonObject.get("playerUUID").asString))!!
+            val sender = Bukkit.getPlayer(UUID.fromString(jsonObject.get("sender").asString))!!
+            val player = Bukkit.getPlayer(UUID.fromString(jsonObject.get("player").asString))!!
             val reason = jsonObject.get("reason").asString
 
             createReport(sender, player, reason, time, id = id)

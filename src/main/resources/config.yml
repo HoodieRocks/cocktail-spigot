@@ -2,4 +2,11 @@ testing: true
 
 pack-downloader: true
 
-datapack-url: "https://github.com/Daily-Datapackers/datapack/archive/refs/heads/main.zip"
+datapack-urls:
+    # New Formatting!
+    # name of pack:
+    #   url: "http://link.here"
+    datapack:
+        url: "https://github.com/Daily-Datapackers/datapack/archive/refs/heads/main.zip"
+    terralith:
+        url: "https://www.planetminecraft.com/data-pack/terralith-overworld-evolved-100-biomes-caves-and-more/download/file/14707294/"

@@ -1,9 +1,9 @@
 package me.cobble.cocktail
 
-import me.cobble.cocktail.cmds.cmdapi.*
-import me.cobble.cocktail.cmds.spigot.CocktailCheck
-import me.cobble.cocktail.cmds.spigot.FlyCommand
-import me.cobble.cocktail.cmds.spigot.ReportCommand
+import me.cobble.cocktail.cmds.function.*
+import me.cobble.cocktail.cmds.nonfunction.CocktailCheck
+import me.cobble.cocktail.cmds.nonfunction.FlyCommand
+import me.cobble.cocktail.cmds.nonfunction.ReportCommand
 import me.cobble.cocktail.listeners.OverrideReloadCommandListener
 import me.cobble.cocktail.utils.Config
 import me.cobble.cocktail.utils.DatapackDownloader

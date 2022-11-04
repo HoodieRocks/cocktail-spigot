@@ -1,4 +1,4 @@
-package me.cobble.cocktail.cmds.spigot
+package me.cobble.cocktail.cmds.nonfunction
 
 import me.cobble.cocktail.Cocktail
 import org.bukkit.command.Command
