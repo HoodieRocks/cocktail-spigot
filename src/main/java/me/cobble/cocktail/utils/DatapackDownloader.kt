@@ -24,13 +24,14 @@ object DatapackDownloader {
     fun getDatapacks() {
         val uri = URI.create(Config.getString("datapack-url"))
         val request = HttpRequest.newBuilder().uri(uri).build()
+        val fileName = uri.path.split("/").last() // not quite?
 
         val stream = client.sendAsync(request, BodyHandlers.ofInputStream())
             .thenApply { obj: HttpResponse<InputStream> -> obj.body() }.join()
 
-        FileOutputStream("$DATAPACK_PATH/${uri.path.split("/").last()}").use { out -> stream.transferTo(out) }
+        FileOutputStream("$DATAPACK_PATH/$fileName").use { out -> stream.transferTo(out) }
 
-        fixZip(uri.path.split("/").last())
+        fixZip(fileName)
 
         Bukkit.getServer().reloadData()
     }
@@ -71,7 +72,7 @@ object DatapackDownloader {
         zis.closeEntry()
         zis.close()
 
-        val path = File("$DATAPACK_PATH/$nameWithoutExtension-temp/datapack-main")
+        val path = File("${destDir.path}/datapack-main")
         val packPath = File("$DATAPACK_PATH/$nameWithoutExtension")
 
         if (packPath.exists()) {
