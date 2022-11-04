@@ -43,6 +43,7 @@ object DatapackDownloader {
         val buffer = ByteArray(4096)
         val zis = ZipInputStream(FileInputStream(fileZip))
         var zipEntry = zis.nextEntry
+
         while (zipEntry != null) {
             val newFile: File = newFile(destDir, zipEntry)
             if (zipEntry.isDirectory) {
@@ -90,8 +91,10 @@ object DatapackDownloader {
         val destFile = File(destinationDir, zipEntry.name)
         val destDirPath = destinationDir.canonicalPath
         val destFilePath = destFile.canonicalPath
+
         if (!destFilePath.startsWith(destDirPath + File.separator)) {
             throw IOException("Entry is outside of the target dir: " + zipEntry.name)
+
         }
         return destFile
     }
