@@ -17,7 +17,7 @@ This version is designed to meet the use cases of `[REDACTED PROJECT NAME]`.
   accepts decimals
 * `/flyspeed <number>` - Will set your flying speed (maximum speed is 10) (limited by spigot/paper)
 * `/timer <time> <selector> <function>` - Runs function asynchronously after `time` number of ticks
-* `/velocity aligned|relative <x> <y> <z>` - Sets your velocity, relative is relative to you, while aligned is relative
+* `/velocity aligned|relative <selector> <x> <y> <z>` - Sets your velocity, relative is relative to you, while aligned is relative
   to Minecraft's axis
 * `/velocity scoreboard <objective>` - Sets your velocity using values from a scoreboard, must have x, y, and z fake
   players (case-sensitive)
