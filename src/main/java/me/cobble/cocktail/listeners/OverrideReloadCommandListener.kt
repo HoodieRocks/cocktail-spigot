@@ -21,7 +21,6 @@ class OverrideReloadCommandListener(private val plugin: Cocktail) : Listener {
             e.player.sendMessage("Reloading Cocktail & Datapacks")
             Config.reload()
             DatapackUpdater.run(plugin)
-            Bukkit.getServer().reloadData()
             e.player.sendMessage("Reloading Complete")
         }
     }

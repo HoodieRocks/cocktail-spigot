@@ -12,6 +12,7 @@ import java.nio.file.Files
 import java.util.logging.Logger
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
+import kotlin.system.measureTimeMillis
 
 
 object DatapackUpdater {
@@ -23,6 +24,7 @@ object DatapackUpdater {
         .build()
     
     private lateinit var logger: Logger
+    private var time: Long = 0
 
     fun run(plugin: Cocktail) {
         logger = plugin.logger
@@ -37,15 +39,19 @@ object DatapackUpdater {
             val fileName = entry.name + ".zip"
 
             logger.info("Downloading ($it)...")
-            val stream = client.sendAsync(request, BodyHandlers.ofInputStream())
-                .thenApply { obj: HttpResponse<InputStream> -> obj.body() }.join()
-            
-            BufferedOutputStream(FileOutputStream("$DATAPACK_PATH/$fileName")).use { out -> stream.transferTo(out) }
-            logger.info("Download complete!")
+            time = measureTimeMillis {
+                val stream = client.sendAsync(request, BodyHandlers.ofInputStream())
+                    .thenApply { obj: HttpResponse<InputStream> -> obj.body() }.join()
 
-            logger.info("Unzipping $it...")
+                BufferedOutputStream(FileOutputStream("$DATAPACK_PATH/$fileName")).use {
+                        out -> stream.transferTo(out)
+                }
+            }
+            logger.info("Download complete! (${time / 1000.0}s)")
+
+            logger.info("Unzipping ($it)...")
             unzipAndFix(fileName)
-            logger.info("Done $it!")
+            logger.info("Done unzipping ($it)!")
         }
 
         Bukkit.getServer().reloadData()
@@ -61,31 +67,32 @@ object DatapackUpdater {
         val zis = ZipInputStream(FileInputStream(zippedFile))
         var ze = zis.nextEntry // zip entry
 
-        logger.info("Unzipping")
-        while (ze != null) {
-            val newFile: File = newFile(destDir, ze)
-            if (ze.isDirectory) {
-                if (!newFile.isDirectory && !newFile.mkdirs()) {
-                    throw IOException("Failed to create directory $newFile")
-                }
-            } else {
-                // fix for Windows-created archives
-                val parent = newFile.parentFile
-                if (!parent.isDirectory && !parent.mkdirs()) {
-                    throw IOException("Failed to create directory $parent")
-                }
+        time = measureTimeMillis {
+            while (ze != null) {
+                val newFile: File = newFile(destDir, ze!!)
+                if (ze!!.isDirectory) {
+                    if (!newFile.isDirectory && !newFile.mkdirs()) {
+                        throw IOException("Failed to create directory $newFile")
+                    }
+                } else {
+                    // fix for Windows-created archives
+                    val parent = newFile.parentFile
+                    if (!parent.isDirectory && !parent.mkdirs()) {
+                        throw IOException("Failed to create directory $parent")
+                    }
 
-                // write file content
-                val fos = BufferedOutputStream(FileOutputStream(newFile))
-                var len: Int
-                while (zis.read(buffer).also { len = it } > 0) {
-                    fos.write(buffer, 0, len)
+                    // write file content
+                    val fos = BufferedOutputStream(FileOutputStream(newFile))
+                    var len: Int
+                    while (zis.read(buffer).also { len = it } > 0) {
+                        fos.write(buffer, 0, len)
+                    }
+                    fos.close()
                 }
-                fos.close()
+                ze = zis.nextEntry
             }
-            ze = zis.nextEntry
         }
-        logger.info("Unzipping Complete!")
+        logger.info("Unzipping Complete! (${time / 1000.0}s)")
 
         zis.closeEntry()
         zis.close()
@@ -93,29 +100,34 @@ object DatapackUpdater {
         val dirs = destDir.listFiles()
 
         logger.info("Beginning fixing of datapacks (if required)")
-        if (dirs != null) {
-            if (dirs.size == 1 && dirs[0].isDirectory) { // Zip contains folder with actual datapack
 
-                val path = dirs[0]
-                val packPath = File("$DATAPACK_PATH/${path.name}")
+        time = measureTimeMillis {
+            if (dirs != null) {
+                if (dirs.size == 1 && dirs[0].isDirectory) { // Zip contains folder with actual datapack
 
-                logger.info("Root folder contains folder with actual datapack... Fixing!")
+                    val path = dirs[0]
+                    val packPath = File("$DATAPACK_PATH/${path.name}")
 
-                if (packPath.exists()) {
-                    packPath.deleteRecursively()
+                    logger.info("Root folder contains folder with actual datapack... Fixing!")
+
+                    if (packPath.exists()) {
+                        packPath.deleteRecursively()
+                    }
+
+                    Files.move(path.toPath(), packPath.toPath())
+
+                    if (destDir.isDirectory && destDir.exists()) {
+                        destDir.deleteRecursively()
+                    }
+
+                    logger.info("Done!")
                 }
 
-                Files.move(path.toPath(), packPath.toPath())
-
-                if (destDir.isDirectory && destDir.exists()) {
-                    destDir.deleteRecursively()
-                }
-
-                logger.info("Done!")
+                File(zippedFile).delete()
             }
-
-            File(zippedFile).delete()
         }
+
+        logger.info("Fixed datapacks (${time / 1000.0}s)")
     }
 
     private fun newFile(destinationDir: File, zipEntry: ZipEntry): File {
