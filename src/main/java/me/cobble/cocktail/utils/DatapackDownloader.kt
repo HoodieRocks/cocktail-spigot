@@ -8,7 +8,6 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.net.http.HttpResponse.BodyHandlers
 import java.nio.file.Files
-import java.util.concurrent.CompletableFuture
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
@@ -39,67 +38,65 @@ object DatapackDownloader {
             unzip(fileName)
         }
 
-        // Bukkit.getServer().reloadData()
+        Bukkit.getServer().reloadData()
     }
 
     private fun unzip(name: String) {
-        CompletableFuture.runAsync { // made async instead of figuring out why this is so slow
 
-            val zippedFile = "$DATAPACK_PATH/$name"
-            val nameWithNoExtension = name.split(".")[0]
-            val destDir = File("$DATAPACK_PATH/$nameWithNoExtension-temp/")
+        val zippedFile = "$DATAPACK_PATH/$name"
+        val noExtension = name.split(".")[0]
+        val destDir = File("$DATAPACK_PATH/$noExtension-temp/")
 
-            val dataBuffer = ByteArray(4096)
-            val zis = ZipInputStream(FileInputStream(zippedFile))
-            var ze = zis.nextEntry // zip entry
+        val buffer = ByteArray(4096)
+        val zis = ZipInputStream(FileInputStream(zippedFile))
+        var ze = zis.nextEntry // zip entry
 
-            while (ze != null) {
-                val newFile: File = newFile(destDir, ze)
-                if (ze.isDirectory) {
-                    if (!newFile.isDirectory && !newFile.mkdirs()) {
-                        throw IOException("Failed to create directory $newFile")
-                    }
-                } else {
-                    // fix for Windows-created archives
-                    val parent = newFile.parentFile
-                    if (!parent.isDirectory && !parent.mkdirs()) {
-                        throw IOException("Failed to create directory $parent")
-                    }
-
-                    // write file content
-                    val fos = FileOutputStream(newFile)
-                    var len: Int
-                    while (zis.read(dataBuffer).also { len = it } > 0) {
-                        fos.write(dataBuffer, 0, len)
-                    }
-                    fos.close()
+        while (ze != null) {
+            val newFile: File = newFile(destDir, ze)
+            if (ze.isDirectory) {
+                if (!newFile.isDirectory && !newFile.mkdirs()) {
+                    throw IOException("Failed to create directory $newFile")
                 }
-                ze = zis.nextEntry
-            }
-
-            zis.closeEntry()
-            zis.close()
-
-            val dirs = destDir.listFiles()
-
-            if (dirs != null) {
-                if (dirs.size == 1 && dirs[0].isDirectory) { // Zip contains folder with actual datapack
-                    val path = dirs[0]
-                    val packPath = File("$DATAPACK_PATH/${path.name}")
-
-                    if (packPath.exists()) {
-                        packPath.deleteRecursively()
-                    }
-
-                    Files.move(path.toPath(), packPath.toPath())
-
-                    if (destDir.isDirectory && destDir.exists()) {
-                        destDir.deleteRecursively()
-                    }
+            } else {
+                // fix for Windows-created archives
+                val parent = newFile.parentFile
+                if (!parent.isDirectory && !parent.mkdirs()) {
+                    throw IOException("Failed to create directory $parent")
                 }
 
-                File(zippedFile).delete()
+                // write file content
+                val fos = BufferedOutputStream(FileOutputStream(newFile))
+                var len: Int
+                while (zis.read(buffer).also { len = it } > 0) {
+                    fos.write(buffer, 0, len)
+                }
+                fos.close()
             }
+            ze = zis.nextEntry
+        }
+
+        zis.closeEntry()
+        zis.close()
+
+        val dirs = destDir.listFiles()
+
+        if (dirs != null) {
+            if (dirs.size == 1 && dirs[0].isDirectory) { // Zip contains folder with actual datapack
+                val path = dirs[0]
+                val packPath = File("$DATAPACK_PATH/${path.name}")
+
+                if (packPath.exists()) {
+                    packPath.deleteRecursively()
+                }
+
+                Files.move(path.toPath(), packPath.toPath())
+
+                if (destDir.isDirectory && destDir.exists()) {
+                    destDir.deleteRecursively()
+                }
+            }
+
+            File(zippedFile).delete()
         }
     }
 

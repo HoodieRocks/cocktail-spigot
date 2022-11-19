@@ -1,6 +1,7 @@
 package me.cobble.cocktail.cmds.nonfunction
 
 import me.cobble.cocktail.Cocktail
+import me.cobble.cocktail.utils.Strings
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -16,10 +17,10 @@ class FlyCommand(plugin: Cocktail) : CommandExecutor {
         if (sender.isOp && sender is Player) {
             if (args.size == 1) {
                 sender.flySpeed = (args[0].toFloat() / 10)
-                sender.sendMessage("Your fly speed is now ${args[0]}")
+                sender.sendMessage(Strings.color("&aYour fly speed is now ${args[0]}"))
                 return true
-            } else sender.sendMessage("Please supply a number")
-        } else sender.sendMessage("No permission")
+            } else sender.sendMessage(Strings.color("&cPlease supply a number"))
+        } else sender.sendMessage(Strings.color("&cNo permission"))
 
         return false
     }
