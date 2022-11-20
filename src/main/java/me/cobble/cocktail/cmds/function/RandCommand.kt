@@ -21,8 +21,10 @@ class RandCommand {
                     if (args.size == 2) {
                         val minValue = args[0] as Int
                         val maxValue = args[1] as Int
+                        val randomValue = (minValue..maxValue).random()
 
-                        return@ResultingCommandExecutor (minValue..maxValue).random()
+                        sender.sendMessage(Strings.color("&eYour number: $randomValue"))
+                        return@ResultingCommandExecutor randomValue
                     } else {
                         sender.sendMessage("Too few arguments, /rand <min> <max>")
                         return@ResultingCommandExecutor 0
