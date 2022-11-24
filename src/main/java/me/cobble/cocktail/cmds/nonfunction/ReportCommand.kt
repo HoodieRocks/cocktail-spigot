@@ -1,6 +1,7 @@
 package me.cobble.cocktail.cmds.nonfunction
 
 import me.cobble.cocktail.Cocktail
+import me.cobble.cocktail.utils.Config
 import me.cobble.cocktail.utils.Report
 import me.cobble.cocktail.utils.Reports
 import me.cobble.cocktail.utils.Strings
@@ -17,11 +18,13 @@ import java.time.LocalDateTime
 
 class ReportCommand(plugin: Cocktail) : TabExecutor {
 
-    private val pageLength = 5
+    private val pageLength = Config.get().getInt("settings.report-page-length")
 
     init {
-        plugin.getCommand("report")!!.setExecutor(this)
-        plugin.getCommand("report")!!.tabCompleter = this
+        if (!Config.getBool("settings.disable-replaceable-commands")) {
+            plugin.getCommand("report")!!.setExecutor(this)
+            plugin.getCommand("report")!!.tabCompleter = this
+        }
     }
 
     override fun onTabComplete(

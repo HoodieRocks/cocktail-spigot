@@ -1,16 +1,19 @@
 package me.cobble.cocktail.cmds.nonfunction
 
 import me.cobble.cocktail.Cocktail
+import me.cobble.cocktail.utils.Config
 import me.cobble.cocktail.utils.Strings
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class FlyCommand(plugin: Cocktail) : CommandExecutor {
+class FlySpeedCommand(plugin: Cocktail) : CommandExecutor {
 
     init {
-        plugin.getCommand("flyspeed")!!.setExecutor(this)
+        if (!Config.getBool("settings.disable-replaceable-commands")) {
+            plugin.getCommand("flyspeed")!!.setExecutor(this)
+        }
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {

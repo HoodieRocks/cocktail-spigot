@@ -27,6 +27,7 @@ dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT'
     compileOnly "dev.jorel:commandapi-core:8.5.1"
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compileOnly "dev.dejvokep:boosted-yaml:1.3"
 }
 
 def targetJavaVersion = 17
@@ -54,10 +55,6 @@ processResources {
     }
 }
 
-tasks.withType(Jar) {
-    // Cobble's test server
-    destinationDirectory = file("D:/Users/aiden/Documents/server3/plugins")
-}
 compileKotlin {
     kotlinOptions {
         jvmTarget = "17"
@@ -68,6 +65,12 @@ compileTestKotlin {
         jvmTarget = "17"
     }
 }
+
+tasks.withType(Jar) {
+    destinationDirectory = file("D:/Users/aiden/Documents/server3/plugins")
+}
+
+jar.dependsOn()
 
 detekt {
     buildUponDefaultConfig = true // preconfigure defaults

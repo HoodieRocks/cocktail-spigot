@@ -1,41 +1,42 @@
 package me.cobble.cocktail.utils
 
+import dev.dejvokep.boostedyaml.YamlDocument
+import dev.dejvokep.boostedyaml.block.implementation.Section
+import dev.dejvokep.boostedyaml.dvs.versioning.BasicVersioning
+import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings
+import dev.dejvokep.boostedyaml.settings.general.GeneralSettings
+import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings
+import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings
+import me.cobble.cocktail.Cocktail
 import org.bukkit.Bukkit
-import org.bukkit.configuration.file.FileConfiguration
-import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
-import java.io.IOException
 
 object Config {
     private val log = Bukkit.getLogger()
-    private var file: File? = null
-    private var yamlFile: YamlConfiguration? = null
+    private lateinit var yamlFile: YamlDocument
 
-    fun setup() {
-        file = File(
-            Bukkit.getServer().pluginManager.getPlugin("Cocktail")?.dataFolder,
-            "config.yml"
+    fun setup(plugin: Cocktail) {
+        yamlFile = YamlDocument.create(
+            File(plugin.dataFolder, "config.yml"),
+            plugin.getResource("config.yml")!!,
+            GeneralSettings.DEFAULT,
+            LoaderSettings.builder().setAutoUpdate(true).build(),
+            DumperSettings.DEFAULT,
+            UpdaterSettings
+                .builder()
+                .setVersioning(BasicVersioning("config-version"))
+                .build()
         )
-        if (!file!!.exists()) {
-            log.info("No config found, Generating...")
-            try {
-                file!!.createNewFile()
-            } catch (e: IOException) {
-                // that's a lot of damage
-                log.severe(e.message)
-            }
-        }
-        yamlFile = YamlConfiguration.loadConfiguration(file!!)
     }
 
-    fun get(): FileConfiguration = yamlFile!!
+    fun get(): YamlDocument = yamlFile
 
-    fun getString(path: String): String = get().getString(path)!!
+    fun getSection(path: String): Section = get().getSection(path)
 
     fun getBool(path: String): Boolean = get().getBoolean(path)
 
     fun reload() { // NO_UCD (unused code)
-        yamlFile = YamlConfiguration.loadConfiguration(file!!)
+        yamlFile.reload()
         log.info("Cocktail Config reloaded")
     }
 }

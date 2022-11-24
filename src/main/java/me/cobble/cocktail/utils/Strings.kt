@@ -1,6 +1,7 @@
 package me.cobble.cocktail.utils
 
 import net.md_5.bungee.api.ChatColor
+import org.bukkit.entity.Player
 
 object Strings {
 
@@ -35,5 +36,9 @@ object Strings {
         val builder = StringBuilder()
         repeat(length) { builder.append((0x0..0xF).random().toString(16)) }
         return builder.toString()
+    }
+
+    fun Player.sendColoredMessage(s: String) {
+        this.sendMessage(color(s))
     }
 }

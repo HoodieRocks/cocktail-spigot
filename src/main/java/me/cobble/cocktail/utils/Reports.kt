@@ -56,16 +56,13 @@ object Reports {
         val gson = Gson()
         val jsonArray = JsonArray()
         val file = File("${plugin.dataFolder}/reports.json")
+        val writer = FileWriter(file)
 
         if (!file.exists()) {
             file.createNewFile()
-            val writer = FileWriter(file)
             gson.toJson(JsonArray(), writer)
-            writer.flush()
-            writer.close()
         }
 
-        val writer = FileWriter(file)
 
         allReports.forEach {
             val jsonObject = JsonObject()

@@ -8,7 +8,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerCommandPreprocessEvent
 
-class OverrideReloadCommandListener(private val plugin: Cocktail) : Listener {
+class OverrideReloadListener(private val plugin: Cocktail) : Listener {
 
     init {
         Bukkit.getServer().pluginManager.registerEvents(this, plugin)
@@ -16,7 +16,7 @@ class OverrideReloadCommandListener(private val plugin: Cocktail) : Listener {
 
     @EventHandler
     fun onReload(e: PlayerCommandPreprocessEvent) {
-        if (e.message == "/minecraft:reload" && e.player.isOp) {
+        if (e.message == "/minecraft:reload" && e.player.isOp && !Config.getBool("settings.unbind-reload")) {
             e.isCancelled = true
             e.player.sendMessage("Reloading Cocktail & Datapacks")
             Config.reload()
