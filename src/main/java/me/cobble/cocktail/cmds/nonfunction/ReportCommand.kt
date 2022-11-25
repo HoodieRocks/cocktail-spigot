@@ -56,9 +56,10 @@ class ReportCommand(plugin: Cocktail) : TabExecutor {
         // Operators
         val reports = Reports.getAllReports()
 
-        if (args.isEmpty()) sender.sendMessage(Strings.color("&c/report <page> | remove <id>"))
-
-        if (args.size == 1) {
+        if (args.isEmpty()) {
+            sender.sendMessage(Strings.color("&c/report <page> | remove <id>"))
+            return false
+        } else if (args.size == 1) {
             return if (reports.isNotEmpty()) {
                 sendReportView(sender, reports, args)
                 true
@@ -66,16 +67,14 @@ class ReportCommand(plugin: Cocktail) : TabExecutor {
                 sender.sendMessage(Strings.color("&aCongrats, there are no reports :D"))
                 true
             }
-        }
-
-        if (args.size == 2 && args[0].equals("remove", true)) {
+        } else if (args.size == 2 && args[0].equals("remove", true)) {
             val report = reports.find { it.id == args[1] }
             if (report != null) {
                 reports.remove(report)
                 sender.sendMessage(Strings.color("&aReport removed!"))
             } else sender.sendMessage(Strings.color("&cReport not found!"))
         } else {
-            sender.sendMessage(Strings.color("&c/report <page>|remove <id>"))
+            sender.sendMessage(Strings.color("&c/report <page> | remove <id>"))
             return false
         }
         return false

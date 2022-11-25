@@ -13,8 +13,8 @@ class TestCommand(private val plugin: Cocktail) {
                 CommandAPICommand("test")
                     .executes(CommandExecutor { sender, _ ->
                         if (sender.isOp) {
-                            sender.sendMessage(Strings.color("Testing utils (randomBytes): ${Strings.randomBytes(8)}"))
-                            sender.sendMessage("Cocktail test complete!")
+                            sender.sendMessage(Strings.color("&dTesting utils (randomBytes): ${Strings.randomBytes(8)}"))
+                            sender.sendMessage(Strings.color("&aCocktail test complete!"))
                         }
                     })
             ).executes(CommandExecutor { sender, _ ->
