@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'me.cobble'
-version = '1.9'
+version = '2.0'
 
 repositories {
     mavenCentral()
@@ -71,7 +71,7 @@ compileTestKotlin {
     }
 }
 
-tasks.withType(Jar) {
+tasks.withType(Jar).configureEach {
     destinationDirectory = file("D:/Users/aiden/Documents/server3/plugins")
 }
 
