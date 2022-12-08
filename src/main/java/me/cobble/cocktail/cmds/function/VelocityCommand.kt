@@ -12,10 +12,8 @@ class VelocityCommand {
 
     init {
         val precisionExtender = 1000
-        val suggestionsNames = arrayListOf<String>()
         val scoreboard = Bukkit.getServer().scoreboardManager?.mainScoreboard!!
-        scoreboard.objectives.forEach { suggestionsNames.add(it.name) }
-        val suggestions = ArgumentSuggestions.strings { suggestionsNames.toTypedArray() }
+        val suggestions = ArgumentSuggestions.strings { scoreboard.objectives.map { it.name }.toTypedArray() }
 
 
         // entity.location.direction.multiply(z).add(Vector(0.0, y, 0.0)).add(Vector(0.0, 0.0, x))

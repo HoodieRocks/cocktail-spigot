@@ -1,7 +1,7 @@
 package me.cobble.cocktail.utils
 
+import de.tr7zw.nbtapi.NBTType
 import net.md_5.bungee.api.ChatColor
-import org.bukkit.entity.Player
 
 object Strings {
 
@@ -38,7 +38,17 @@ object Strings {
         return builder.toString()
     }
 
-    fun Player.sendColoredMessage(s: String) {
-        this.sendMessage(color(s))
+    fun getNBTTypeFromString(type: String, path: String): NBTType {
+        return if (type.contains(' ') || type.contains("\"")) NBTType.NBTTagString
+        else if (type.removeSuffix("s").toShortOrNull() != null && type.endsWith("s")) NBTType.NBTTagShort
+        else if (type.removeSuffix("d")
+                .toDoubleOrNull() != null && (!type.endsWith("f")) || type.endsWith("d")
+        ) NBTType.NBTTagDouble
+        else if (type.removeSuffix("f").toDoubleOrNull() != null && type.endsWith("f")) NBTType.NBTTagDouble
+        else if (type.toIntOrNull() != null) NBTType.NBTTagInt
+        else if (type.removeSuffix("l").toLongOrNull() != null && type.endsWith("l")) NBTType.NBTTagLong
+        else if (type.removeSuffix("b").toByteOrNull() != null && type.endsWith("b")) NBTType.NBTTagByte
+        else if (type.contains(Regex("(\\[[0-9]\\])+")) || path.contains(Regex("(\\[[0-9]\\])+"))) NBTType.NBTTagList
+        else NBTType.NBTTagList
     }
 }

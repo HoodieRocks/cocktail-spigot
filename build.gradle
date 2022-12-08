@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm' version '1.7.10'
-    id 'io.gitlab.arturbosch.detekt' version '1.21.0'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 group = 'me.cobble'
@@ -15,6 +15,10 @@ repositories {
         url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
     }
     maven {
+        name = "CodeMC"
+        url = uri("https://repo.codemc.org/repository/maven-public/")
+    }
+    maven {
         name = 'sonatype'
         url = 'https://oss.sonatype.org/content/groups/public/'
     }
@@ -24,6 +28,7 @@ repositories {
 }
 
 dependencies {
+    implementation("de.tr7zw:item-nbt-api-plugin:2.9.2")
     compileOnly 'org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT'
     compileOnly "dev.jorel:commandapi-core:8.5.1"
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
@@ -72,9 +77,14 @@ tasks.withType(Jar) {
 
 jar.dependsOn()
 
-detekt {
-    buildUponDefaultConfig = true // preconfigure defaults
-    allRules = false // activate all available (even unstable) rules.
-    config = files("$projectDir/detekt.yml")
-    // point to your custom config defining rules to run, overwriting default behavior
+shadowJar {
+    archiveClassifier.set("")
+    relocate("de.tr7zw.changeme.nbtapi","me.cobble.cocktail.libs")
 }
+
+//detekt {
+//    buildUponDefaultConfig = true // preconfigure defaults
+//    allRules = false // activate all available (even unstable) rules.
+//    config = files("$projectDir/detekt.yml")
+//    // point to your custom config defining rules to run, overwriting default behavior
+//}

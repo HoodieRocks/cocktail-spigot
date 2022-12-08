@@ -57,6 +57,9 @@ object DatapackUpdater {
         Bukkit.getServer().reloadData()
     }
 
+    /**
+     * Processes a datapack
+     */
     private fun process(name: String) {
         val zippedFile = "$DATAPACK_PATH/$name"
         val noExtension = name.split(".")[0]
@@ -93,6 +96,9 @@ object DatapackUpdater {
         return destFile
     }
 
+    /**
+     * Unzips the datapack
+     */
     private fun unzip(destDir: File, zis: ZipInputStream) {
         val buffer = ByteArray(4096)
         var ze = zis.nextEntry
@@ -122,6 +128,9 @@ object DatapackUpdater {
         }
     }
 
+    /**
+     * Fixes dually-nested data folders
+     */
     private fun fixZip(zippedFile: String, destDir: File) {
         val dirs = destDir.listFiles()
 
