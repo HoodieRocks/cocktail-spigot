@@ -1,12 +1,16 @@
-![cocktail-glass_1f378](https://user-images.githubusercontent.com/62707056/198886948-4f700ee2-fa48-405d-a5ea-443aa14bbb9b.png)
+# Cocktail :cocktail:
 
-# Cocktail
+Cocktail is a Spigot plugin designed to expand the capabilities of Minecraft Datapacks via useful and powerful commands and utilities.
 
-Cocktail is a Spigot plugin designed to expand the capabilities of Minecraft datapacks via useful and fast commands.
+**Requires [CommandAPI](https://www.spigotmc.org/resources/62353/)**
 
-## Commands
+## Features
 
-* For most commands, see the [Wiki](https://github.com/Daily-Datapackers/cocktail/wiki/Examples)
-* `/report <player> <reasons>` - Reports a player (non-op)
-* `/report [page]` - Shows the reports (ops)
-* `/report remove <id>` - Removes report (ops)
+### Datapack Updater
+- Update your datapacks in a jiffy
+- Add your link to the config and it'll download your datapacks updates on reload or start up
+
+## Disclaimers
+
+- While this plugin can be used on Paper or its derivatives (Purpur, Pufferfish, Petal), [Paper is known for causing lots of issues with datapacks](https://github.com/search?q=extension%3Amcfunction+language%3Amcfunction+paper&type=issues) (more than Spigot)
+- This plugin requires [CommandAPI](https://www.spigotmc.org/resources/62353/) to operate
