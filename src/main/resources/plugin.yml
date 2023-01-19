@@ -6,12 +6,5 @@ depend: [ CommandAPI ]
 authors: [ Cbble_ ]
 description: Extensions to the default datapack environment
 libraries:
-    - "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10"
-    - 'dev.dejvokep:boosted-yaml:1.3'
-commands:
-    flyspeed:
-        description: wee
-    report:
-        description: reports a player
-    ctversion:
-        description: gets version of cocktail
+  - "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10"
+  - 'dev.dejvokep:boosted-yaml:1.3'

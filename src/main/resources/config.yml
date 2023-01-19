@@ -1,19 +1,18 @@
-config-version: 2
-pack-downloader: true
+# Do NOT remove or touch this
+config-version: 1
+
+# Enables or disables the automatic datapack downloader
+# This can be used to prevent overriding changes when testing
+pack-downloader: false
 
 settings:
-    # These are commands that probably already exist on the average server
-    # As of right now, this only applies to /report and /flyspeed
-    disable-replaceable-commands: false
-    # This unbinds /reload from reloading cocktail
-    unbind-reload: false
-    # Page length of reports
-    # Warning: this setting isn't well tested, expect bugs and errors
-    report-page-length: 5
+  # This unbinds /reload from reloading cocktail
+  unbind-reload: false
+  # Page length of reports
+  # Warning: this setting isn't well tested, expect bugs and errors
+  report-page-length: 5
 
 datapack-urls:
-    # New Formatting!
-    # name of pack:
-    #   url: "http://link.here"
-    datapack:
-        url: "https://github.com/Daily-Datapackers/datapack/archive/refs/heads/main.zip"
+  datapack-name-here:
+    # Make sure the link either redirects to a download page or is a direct link to a zip of the pack
+    url: "https://put-your-page.here/"

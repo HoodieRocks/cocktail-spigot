@@ -1,7 +1,6 @@
 package me.cobble.cocktail.cmds.function
 
 import dev.jorel.commandapi.CommandAPICommand
-import dev.jorel.commandapi.arguments.EntitySelector
 import dev.jorel.commandapi.arguments.EntitySelectorArgument
 import dev.jorel.commandapi.arguments.FunctionArgument
 import dev.jorel.commandapi.arguments.TimeArgument
@@ -17,7 +16,7 @@ class TimerCommand(plugin: Cocktail) {
     init {
         CommandAPICommand("timer")
             .withArguments(TimeArgument("time"))
-            .withArguments(EntitySelectorArgument<Entity>("entities", EntitySelector.ONE_ENTITY))
+            .withArguments(EntitySelectorArgument.OneEntity("entities"))
             .withArguments(FunctionArgument("function"))
             .executes(CommandExecutor { sender, args ->
                 if (sender.isOp) {

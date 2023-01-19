@@ -1,13 +1,15 @@
 package me.cobble.cocktail.cmds.function
 
 import dev.jorel.commandapi.CommandAPICommand
-import dev.jorel.commandapi.arguments.*
+import dev.jorel.commandapi.arguments.ArgumentSuggestions
+import dev.jorel.commandapi.arguments.DoubleArgument
+import dev.jorel.commandapi.arguments.EntitySelectorArgument
+import dev.jorel.commandapi.arguments.StringArgument
 import dev.jorel.commandapi.executors.CommandExecutor
 import me.cobble.cocktail.utils.Strings
 import org.bukkit.Bukkit
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Damageable
-import org.bukkit.entity.Entity
 import org.bukkit.entity.LivingEntity
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause
@@ -18,7 +20,7 @@ class DamageCommand {
         val damageArgs = ArgumentSuggestions.strings(*DamageCause.values().map { it.name.lowercase() }.toTypedArray())
 
         CommandAPICommand("damage")
-            .withArguments(EntitySelectorArgument<Collection<Entity>>("entities", EntitySelector.MANY_ENTITIES))
+            .withArguments(EntitySelectorArgument.ManyEntities("entities"))
             .withArguments(DoubleArgument("damage"))
             .executes(CommandExecutor { sender, args ->
                 if (sender.isOp) {
@@ -52,7 +54,7 @@ class DamageCommand {
             .register()
 
         CommandAPICommand("damage")
-            .withArguments(EntitySelectorArgument<Collection<Entity>>("entities", EntitySelector.MANY_ENTITIES))
+            .withArguments(EntitySelectorArgument.ManyEntities("entities"))
             .withArguments(DoubleArgument("damage"))
             .withArguments(StringArgument("cause").replaceSuggestions(damageArgs))
             .executes(CommandExecutor { sender, args ->
