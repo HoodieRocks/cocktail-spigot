@@ -9,6 +9,7 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.net.http.HttpResponse.BodyHandlers
 import java.nio.file.Files
+import java.time.Duration
 import java.util.logging.Logger
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
@@ -25,6 +26,7 @@ object DatapackUpdater {
 
     private lateinit var logger: Logger
     private var time: Long = 0
+    private val dataFolder = Bukkit.getPluginManager().getPlugin("Cocktail")!!.dataFolder
 
     fun run(plugin: Cocktail) {
         logger = plugin.logger
@@ -35,22 +37,25 @@ object DatapackUpdater {
         listOfUris.forEach {
             val entry = Config.getSection("datapack-urls.$it")
             val uri = URI.create(entry.getString("url")!!)
-            val request = HttpRequest.newBuilder().uri(uri).build()
-            val fileName = "${entry.name}.zip"
+            val request = HttpRequest.newBuilder()
+                .uri(uri)
+                .GET()
+                .timeout(Duration.ofSeconds(30))
+                .build()
 
             logger.info("Downloading ($it)...")
             time = measureTimeMillis {
                 val stream = client.sendAsync(request, BodyHandlers.ofInputStream())
                     .thenApply { obj: HttpResponse<InputStream> -> obj.body() }.join()
 
-                BufferedOutputStream(FileOutputStream("$DATAPACK_PATH/$fileName")).use { out ->
+                BufferedOutputStream(FileOutputStream("$DATAPACK_PATH/${entry.nameAsString}.zip")).use { out ->
                     stream.transferTo(out)
                 }
             }
             logger.info("Download complete! (${time / 1000.0}s)")
 
             logger.info("Unzipping ($it)...")
-            process(fileName)
+            process(entry.nameAsString!!)
             logger.info("Done unzipping ($it)!")
         }
 
@@ -61,10 +66,10 @@ object DatapackUpdater {
      * Processes a datapack
      */
     private fun process(name: String) {
-        val zippedFile = "$DATAPACK_PATH/$name"
-        val noExtension = name.split(".")[0]
-        val destDir = File("$DATAPACK_PATH/$noExtension-temp/")
+        val zippedFile = "$DATAPACK_PATH/$name.zip"
+        val destDir = File("$DATAPACK_PATH/$name-temp/")
         val zis = ZipInputStream(FileInputStream(zippedFile))
+        var fixedFileName: String?
 
         time = measureTimeMillis {
             unzip(destDir, zis)
@@ -78,8 +83,10 @@ object DatapackUpdater {
         logger.info("Beginning fixing of datapacks (if required)")
 
         time = measureTimeMillis {
-            fixZip(zippedFile, destDir)
+            fixedFileName = fixZip(zippedFile, name, destDir)
         }
+
+        moveResources(File("$DATAPACK_PATH/$fixedFileName"), name)
 
         logger.info("Fixed datapacks (${time / 1000.0}s)")
     }
@@ -131,31 +138,50 @@ object DatapackUpdater {
     /**
      * Fixes dually-nested data folders
      */
-    private fun fixZip(zippedFile: String, destDir: File) {
-        val dirs = destDir.listFiles()
+    private fun fixZip(file: String, name: String, destDir: File): String {
+        val dirs = destDir.listFiles() ?: return ""
+        var path: File? = null
 
-        if (dirs != null) {
-            if (dirs.size == 1 && dirs[0].isDirectory) { // Zip contains folder with actual datapack
+        if (dirs.size == 1 && dirs[0].isDirectory) { // Zip contains folder with actual datapack
 
-                val path = dirs[0]
-                val packPath = File("$DATAPACK_PATH/${path.name}")
+            path = dirs[0]
+            val packPath = File("$DATAPACK_PATH/${path.name}")
 
-                logger.info("Root folder contains folder with actual datapack... Fixing!")
+            logger.info("Root folder contains folder with actual datapack... Fixing!")
 
-                if (packPath.exists()) {
-                    packPath.deleteRecursively()
-                }
-
-                Files.move(path.toPath(), packPath.toPath())
-
-                if (destDir.isDirectory && destDir.exists()) {
-                    destDir.deleteRecursively()
-                }
-
-                logger.info("Done!")
+            if (packPath.exists()) {
+                packPath.deleteRecursively()
             }
 
-            File(zippedFile).delete()
+            Files.move(path.toPath(), packPath.toPath())
+
+            if (destDir.isDirectory && destDir.exists()) {
+                destDir.deleteRecursively()
+            }
+
+            logger.info("Done!")
+        }
+
+        File(file).delete()
+        return path?.name ?: name
+    }
+
+    private fun moveResources(packPath: File, name: String) {
+
+        val dirs = packPath.listFiles() ?: return
+
+        val resourcesFile = dirs.find { it.name.equals("resources.zip", true) }
+        val packServerPath = File("$dataFolder/pack_server/${name}-resources.zip")
+
+        if (resourcesFile != null) {
+            if (packServerPath.exists()) {
+                packServerPath.delete()
+            } else {
+                packServerPath.mkdirs()
+            }
+
+            if (Files.exists(packServerPath.toPath())) Files.delete(packServerPath.toPath())
+            Files.move(resourcesFile.toPath(), packServerPath.toPath())
         }
     }
 }

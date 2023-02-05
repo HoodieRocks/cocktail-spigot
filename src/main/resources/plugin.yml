@@ -2,9 +2,10 @@ name: Cocktail
 version: '${version}'
 main: me.cobble.cocktail.Cocktail
 api-version: 1.19
-depend: [ CommandAPI ]
 authors: [ Cbble_ ]
 description: Extensions to the default datapack environment
 libraries:
   - "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10"
   - 'dev.dejvokep:boosted-yaml:1.3'
+  - "org.http4k:http4k-core:4.37.0.0"
+  - "org.http4k:http4k-server-undertow:4.37.0.0"

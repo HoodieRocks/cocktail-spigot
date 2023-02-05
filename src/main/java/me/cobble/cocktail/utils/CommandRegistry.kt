@@ -2,7 +2,7 @@ package me.cobble.cocktail.utils
 
 import dev.jorel.commandapi.CommandAPI
 import me.cobble.cocktail.Cocktail
-import me.cobble.cocktail.cmds.function.*
+import me.cobble.cocktail.cmds.*
 import me.cobble.cocktail.listeners.OverrideReloadListener
 
 class CommandRegistry(private val plugin: Cocktail) {
@@ -29,7 +29,6 @@ class CommandRegistry(private val plugin: Cocktail) {
         CommandAPI.unregister("ok")
         CommandAPI.unregister("bench")
         CommandAPI.unregister("timer")
-        CommandAPI.unregister("pdata")
         CommandAPI.unregister("velocity")
     }
 }

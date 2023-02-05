@@ -1,4 +1,4 @@
-package me.cobble.cocktail.cmds.function
+package me.cobble.cocktail.cmds
 
 import dev.jorel.commandapi.CommandAPICommand
 import dev.jorel.commandapi.arguments.IntegerArgument

@@ -16,13 +16,15 @@ class OverrideReloadListener(private val plugin: Cocktail) : Listener {
 
     @EventHandler
     fun onReload(e: PlayerCommandPreprocessEvent) {
-        if (e.message == "/minecraft:reload" && e.player.isOp && !Config.getBool("settings.unbind-reload")) {
+        if (e.message == "/minecraft:reload" && e.player.isOp && !Config.getBool("unbind-reload")) {
             e.isCancelled = true
             e.player.sendMessage("Reloading Cocktail & Datapacks")
             Config.reload()
             DatapackUpdater.run(plugin)
             e.player.sendMessage("Reloading Complete")
+            e.player.setResourcePack("${Bukkit.getIp()}:")
         }
+
     }
 
 }

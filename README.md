@@ -7,7 +7,7 @@ Cocktail is a Spigot plugin designed to expand the capabilities of Minecraft Dat
 ## Features
 
 ### Datapack Updater
-Update your datapacks in a jiffy! Add your link to the config and it'll download your datapacks updates on reload or start up
+Update your datapacks in a jiffy! Add your link to the config, and it'll download your datapacks updates on reload or start up
 
 ```YAML
 datapack-name-here:

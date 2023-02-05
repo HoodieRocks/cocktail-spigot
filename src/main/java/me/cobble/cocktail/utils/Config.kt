@@ -27,6 +27,8 @@ object Config {
                 .setVersioning(BasicVersioning("config-version"))
                 .build()
         )
+
+        // create web server folders
     }
 
     fun get(): YamlDocument = yamlFile
@@ -34,6 +36,8 @@ object Config {
     fun getSection(path: String): Section = get().getSection(path)
 
     fun getBool(path: String): Boolean = get().getBoolean(path)
+
+    fun getInt(path: String): Int = get().getInt(path)
 
     fun reload() { // NO_UCD (unused code)
         yamlFile.reload()

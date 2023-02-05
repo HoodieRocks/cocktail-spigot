@@ -1,16 +1,23 @@
 # Do NOT remove or touch this
-config-version: 1
+config-version: 2
 
 # Enables or disables the automatic datapack downloader
 # This can be used to prevent overriding changes when testing
 pack-downloader: false
 
-settings:
-  # This unbinds /reload from reloading cocktail
-  unbind-reload: false
-  # Page length of reports
-  # Warning: this setting isn't well tested, expect bugs and errors
-  report-page-length: 5
+# This unbinds /reload from reloading cocktail
+unbind-reload: false
+
+resource-pack-server:
+  # Enable resource pack server, this is required to send resource packs from datapacks to players
+  enabled: true
+
+  # Sets the port to put this on, make sure to run this on an open port
+  # It may require opening a separate port for this to work
+  port: 8080
+
+  # Set which resource pack to use
+  active-resource-pack: "datapack-name-here" # this is the name of the entry in datapack-urls
 
 datapack-urls:
   datapack-name-here:
