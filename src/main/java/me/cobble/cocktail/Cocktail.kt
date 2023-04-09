@@ -1,5 +1,7 @@
 package me.cobble.cocktail
 
+import com.comphenix.protocol.ProtocolLibrary
+import com.comphenix.protocol.ProtocolManager
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIConfig
 import io.papermc.lib.PaperLib
@@ -10,45 +12,46 @@ import me.cobble.cocktail.utils.DatapackUpdater
 import me.cobble.cocktail.web.ResourcePackFileServer
 import org.bukkit.plugin.java.JavaPlugin
 
-
 class Cocktail : JavaPlugin() {
 
-    private val registry = CommandRegistry(this)
-    private lateinit var resourcePackFileServer: ResourcePackFileServer
+  private lateinit var protocolManager: ProtocolManager
+  private lateinit var registry: CommandRegistry
+  private lateinit var resourcePackFileServer: ResourcePackFileServer
 
-    override fun onLoad() {
-        CommandAPI.onLoad(CommandAPIConfig().silentLogs(true))
-        registry.registerVanilla()
+  override fun onLoad() {
+    protocolManager = ProtocolLibrary.getProtocolManager()
+    registry = CommandRegistry(this, protocolManager)
+    CommandAPI.onLoad(CommandAPIConfig().silentLogs(true))
+    registry.registerVanilla()
+  }
+
+  override fun onEnable() {
+    // Plugin startup logic
+    this.saveDefaultConfig()
+    Config.setup(this)
+
+    CommandAPI.onEnable(this)
+
+    if (PaperLib.isPaper()) {
+      logger.warning(
+        "Paper and it's forks are known for causing issues with datapacks, " +
+          "using Cocktail with Paper works but is not recommended",
+      )
     }
 
-    override fun onEnable() {
-        // Plugin startup logic
-        this.saveDefaultConfig()
-        Config.setup(this)
+    if (Config.getBool("pack-downloader")) DatapackUpdater.run(this)
 
-        CommandAPI.onEnable(this)
+    resourcePackFileServer = ResourcePackFileServer(this)
 
-        if (PaperLib.isPaper()) {
-            logger.warning(
-                "Paper and it's forks are known for causing issues with datapacks, " +
-                        "using Cocktail with Paper works but is not recommended"
-            )
-        }
+    registry.registerSpigot()
+    resourcePackFileServer.start()
+    SendResourcePackListener(this, resourcePackFileServer)
+  }
 
-        if (Config.getBool("pack-downloader")) DatapackUpdater.run(this)
-
-        resourcePackFileServer = ResourcePackFileServer(this)
-
-        registry.registerSpigot()
-        resourcePackFileServer.start()
-        SendResourcePackListener(this, resourcePackFileServer)
-
-    }
-
-    override fun onDisable() {
-        // Plugin shutdown logic
-        CommandAPI.onDisable()
-        registry.unregisterVanilla()
-        resourcePackFileServer.stop()
-    }
+  override fun onDisable() {
+    // Plugin shutdown logic
+    CommandAPI.onDisable()
+    registry.unregisterVanilla()
+    resourcePackFileServer.stop()
+  }
 }

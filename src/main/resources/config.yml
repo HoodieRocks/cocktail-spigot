@@ -1,9 +1,9 @@
 # Do NOT remove or touch this
-config-version: 2
+config-version: 3
 
 # Enables or disables the automatic datapack downloader
 # This can be used to prevent overriding changes when testing
-pack-downloader: false
+pack-downloader: true
 
 # This unbinds /reload from reloading cocktail
 unbind-reload: false

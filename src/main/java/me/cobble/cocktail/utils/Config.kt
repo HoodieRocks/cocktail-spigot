@@ -12,35 +12,35 @@ import org.bukkit.Bukkit
 import java.io.File
 
 object Config {
-    private val log = Bukkit.getLogger()
-    private lateinit var yamlFile: YamlDocument
+  private val log = Bukkit.getLogger()
+  private lateinit var yamlFile: YamlDocument
 
-    fun setup(plugin: Cocktail) {
-        yamlFile = YamlDocument.create(
-            File(plugin.dataFolder, "config.yml"),
-            plugin.getResource("config.yml")!!,
-            GeneralSettings.DEFAULT,
-            LoaderSettings.builder().setAutoUpdate(true).build(),
-            DumperSettings.DEFAULT,
-            UpdaterSettings
-                .builder()
-                .setVersioning(BasicVersioning("config-version"))
-                .build()
-        )
+  fun setup(plugin: Cocktail) {
+    yamlFile = YamlDocument.create(
+      File(plugin.dataFolder, "config.yml"),
+      plugin.getResource("config.yml")!!,
+      GeneralSettings.DEFAULT,
+      LoaderSettings.builder().setAutoUpdate(true).build(),
+      DumperSettings.DEFAULT,
+      UpdaterSettings
+        .builder()
+        .setVersioning(BasicVersioning("config-version"))
+        .build(),
+    )
 
-        // create web server folders
-    }
+    // create web server folders
+  }
 
-    fun get(): YamlDocument = yamlFile
+  fun get(): YamlDocument = yamlFile
 
-    fun getSection(path: String): Section = get().getSection(path)
+  fun getSection(path: String): Section = get().getSection(path)
 
-    fun getBool(path: String): Boolean = get().getBoolean(path)
+  fun getBool(path: String): Boolean = get().getBoolean(path)
 
-    fun getInt(path: String): Int = get().getInt(path)
+  fun getInt(path: String): Int = get().getInt(path)
 
-    fun reload() { // NO_UCD (unused code)
-        yamlFile.reload()
-        log.info("Cocktail Config reloaded")
-    }
+  fun reload() { // NO_UCD (unused code)
+    yamlFile.reload()
+    log.info("Cocktail Config reloaded")
+  }
 }

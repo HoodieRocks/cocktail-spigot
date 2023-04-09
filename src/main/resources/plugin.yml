@@ -3,6 +3,8 @@ version: '${version}'
 main: me.cobble.cocktail.Cocktail
 api-version: 1.19
 authors: [ Cbble_ ]
+depend:
+  - ProtocolLib
 description: Extensions to the default datapack environment
 libraries:
   - "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10"
