@@ -2,12 +2,7 @@ package me.cobble.cocktail.utils
 
 import me.cobble.cocktail.Cocktail
 import org.bukkit.Bukkit
-import java.io.BufferedOutputStream
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStream
+import java.io.*
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest

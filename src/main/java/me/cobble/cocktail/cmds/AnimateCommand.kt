@@ -2,11 +2,7 @@ package me.cobble.cocktail.cmds
 
 import com.comphenix.protocol.PacketType
 import com.comphenix.protocol.ProtocolManager
-import dev.jorel.commandapi.CommandAPICommand
-import dev.jorel.commandapi.arguments.EntitySelectorArgument
-import dev.jorel.commandapi.arguments.IntegerArgument
-import dev.jorel.commandapi.arguments.MultiLiteralArgument
-import dev.jorel.commandapi.executors.CommandExecutor
+import dev.jorel.commandapi.kotlindsl.*
 import me.cobble.cocktail.Cocktail
 import me.cobble.cocktail.utils.PacketUtils
 import org.bukkit.Bukkit
@@ -17,24 +13,21 @@ import java.util.function.Consumer
 class AnimateCommand(plugin: Cocktail, packetManager: ProtocolManager) {
 
   init {
-    CommandAPICommand("animate")
-      .withArguments(EntitySelectorArgument.OnePlayer("player"))
-      .withArguments(
-        MultiLiteralArgument(
-          "swing_main",
-          "damage",
-          "leave_bed",
-          "swing_offhand",
-          "crit",
-          "magic_crit",
-        ),
+    commandAPICommand("animate") {
+      entitySelectorArgumentOnePlayer("player")
+      multiLiteralArgument(
+        "swing_main",
+        "damage",
+        "leave_bed",
+        "swing_offhand",
+        "crit",
+        "magic_crit",
       )
-      .withArguments(IntegerArgument("ticks", 0, Int.MAX_VALUE))
-      .executes(
-        CommandExecutor { sender, args ->
+        integerArgument("ticks", 0, Int.MAX_VALUE)
+        anyExecutor { sender, args ->
           if (!sender.isOp) {
             sender.sendMessage(ChatColor.RED.toString() + "No permission!")
-            return@CommandExecutor
+            return@anyExecutor
           }
 
           val animNumber = when (args[1] as String) {
@@ -65,8 +58,7 @@ class AnimateCommand(plugin: Cocktail, packetManager: ProtocolManager) {
             0,
             1,
           )
-        },
-      )
-      .register()
+        }
+    }
   }
 }

@@ -1,10 +1,6 @@
 package me.cobble.cocktail.cmds
 
-import dev.jorel.commandapi.CommandAPICommand
-import dev.jorel.commandapi.arguments.EntitySelectorArgument
-import dev.jorel.commandapi.arguments.IntegerArgument
-import dev.jorel.commandapi.arguments.MultiLiteralArgument
-import dev.jorel.commandapi.executors.CommandExecutor
+import dev.jorel.commandapi.kotlindsl.*
 import me.cobble.cocktail.Cocktail
 import org.bukkit.Bukkit
 import org.bukkit.entity.LivingEntity
@@ -14,16 +10,15 @@ import java.util.function.Consumer
 class TargetCommand(plugin: Cocktail) {
 
   init {
-    CommandAPICommand("target")
-      .withArguments(EntitySelectorArgument.OneEntity("entity"))
-      .withArguments(MultiLiteralArgument("set", "clear"))
-      .withArguments(EntitySelectorArgument.OneEntity("target_entity"))
-      .withArguments(IntegerArgument("ticks", 0, Int.MAX_VALUE))
-      .executes(
-        CommandExecutor { sender, args ->
+    commandAPICommand("target") {
+      entitySelectorArgumentOneEntity("entity")
+      multiLiteralArgument("set", "clear")
+      entitySelectorArgumentOneEntity("target_entity")
+      integerArgument("ticks", 0, Int.MAX_VALUE)
+      anyExecutor { sender, args ->
 
           if (!sender.isOp) {
-            return@CommandExecutor
+            return@anyExecutor
           }
 
           val mob = args[0] as Mob
@@ -32,21 +27,22 @@ class TargetCommand(plugin: Cocktail) {
           Bukkit.getScheduler().runTaskTimerAsynchronously(
             plugin,
             Consumer {
-              when (args[1] as String) {
+              when (args[1]) {
                 "set" -> {
                   mob.target = targetEntity
                 }
+
                 "clear" -> {
                   mob.target = null
                 }
+
                 else -> error("Impossible state!")
               }
             },
             0,
             1,
           )
-        },
-      )
-      .register()
+        }
+    }
   }
 }

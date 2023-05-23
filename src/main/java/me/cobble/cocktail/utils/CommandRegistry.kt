@@ -3,14 +3,7 @@ package me.cobble.cocktail.utils
 import com.comphenix.protocol.ProtocolManager
 import dev.jorel.commandapi.CommandAPI
 import me.cobble.cocktail.Cocktail
-import me.cobble.cocktail.cmds.AnimateCommand
-import me.cobble.cocktail.cmds.BenchCommand
-import me.cobble.cocktail.cmds.RandCommand
-import me.cobble.cocktail.cmds.SetSlotCommand
-import me.cobble.cocktail.cmds.TargetCommand
-import me.cobble.cocktail.cmds.TestCommand
-import me.cobble.cocktail.cmds.TimerCommand
-import me.cobble.cocktail.cmds.VelocityCommand
+import me.cobble.cocktail.cmds.*
 import me.cobble.cocktail.listeners.OverrideReloadListener
 
 class CommandRegistry(private val plugin: Cocktail, private val packetManager: ProtocolManager) {

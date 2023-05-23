@@ -21,7 +21,7 @@ class TimerCommand(plugin: Cocktail) {
       .executes(
         CommandExecutor { sender, args ->
           if (sender.isOp) {
-            if (args.size == 3) {
+            if (args.count() == 3) {
               val time = args[0] as Int
               val entity = args[1] as Entity
               val function = args[2] as Array<*>
