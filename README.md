@@ -1,4 +1,4 @@
-# Cocktail :cocktail:
+# Cocktail (spigot) :cocktail:
 
 Cocktail is a Spigot plugin designed to expand the capabilities of Minecraft Datapacks via useful and powerful commands and utilities.
 
